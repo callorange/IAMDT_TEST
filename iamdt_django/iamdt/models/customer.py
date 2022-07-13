@@ -16,6 +16,9 @@ class Customer(models.Model):
         help_text="SMS 수신이 가능한 연락처",
     )
 
+    created_at = models.DateTimeField("등록일", auto_now_add=True)
+    updated_at = models.DateTimeField("수정일", auto_now=True)
+
     class Meta:
         verbose_name = "고객"
         verbose_name_plural = "고객 리스트"

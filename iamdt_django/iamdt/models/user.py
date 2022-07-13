@@ -50,6 +50,9 @@ class User(AbstractUser):
     )
     messenger_id = models.CharField("메신저 아이디", blank=True, max_length=100)
 
+    created_at = models.DateTimeField("등록일", auto_now_add=True)
+    updated_at = models.DateTimeField("수정일", auto_now=True)
+
     class Meta:
         verbose_name = "유저"
         verbose_name_plural = "유저 리스트"
