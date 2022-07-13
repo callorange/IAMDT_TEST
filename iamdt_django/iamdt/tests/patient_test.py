@@ -7,10 +7,10 @@ from iamdt.models import Customer, Patient
 from iamdt.tests.customer_test import test_customer_info
 
 test_patient_info = [
-    {"name": "환자이름", "age": 11},
-    {"name": "환자이름", "age": 5},
-    {"name": "름이자환", "age": 5},
-    {"name": "환자이름", "age": 8},
+    {"name": "환자이름"},
+    {"name": "환자이름"},
+    {"name": "름이자환"},
+    {"name": "환자이름"},
 ]
 
 
@@ -35,35 +35,30 @@ class PatientModelTestCase(TestCase):
         )
         patient = Patient.objects.get(companion=customer, name=patient_info["name"])
 
-        # 이름 확인
-        self.assertEqual(patient.name, patient_info["name"])
-
-        # 보호자 이름 확인
-        self.assertEqual(patient.companion.name, customer_info["name"])
+        self.assertEqual(patient.name, patient_info["name"])  # 이름 확인
+        self.assertEqual(patient.companion.name, customer_info["name"])  # 보호자 이름 확인
 
     def test_filter(self) -> None:
-        """환자 모델 검색 기능 테스트"""
-        # 등록된 환자는 4명
-        self.assertEqual(4, Patient.objects.all().count())
+        """환자 모델 검색"""
+        self.assertEqual(4, Patient.objects.all().count())  # 등록된 환자는 4명
 
-        # 나이가 5살인 환자는 2명
-        self.assertEqual(2, Patient.objects.filter(age=5).count())
-
+    def test_filter_name(self) -> None:
+        """환자 모델 이름 검색"""
         # 이름이 같은 환자는 3명
         self.assertEqual(3, Patient.objects.filter(name="환자이름").count())
 
-    def test_validation(self) -> None:
-        """환자 모델 validation 테스트"""
+    def test_validation_companion(self) -> None:
+        """환자 모델 동행인 검증"""
         patient = Patient.objects.first()
 
-        # 이름은 비어있으면 안된다
-        patient.refresh_from_db()
-        patient.name = ""
+        patient.companion = None
         with self.assertRaises(ValidationError):
             patient.full_clean()
 
-        # 나이는 0살 이상이어야 한다.
-        patient.refresh_from_db()
-        patient.age = -1
+    def test_validation_name(self) -> None:
+        """환자 모델 이름 검증"""
+        patient = Patient.objects.first()
+
+        patient.name = ""
         with self.assertRaises(ValidationError):
             patient.full_clean()

@@ -15,7 +15,6 @@ class Customer(models.Model):
         validators=[phone_validator],
         help_text="SMS 수신이 가능한 연락처",
     )
-    email = models.EmailField("이메일주소", blank=True)
 
     class Meta:
         verbose_name = "고객"
@@ -24,5 +23,5 @@ class Customer(models.Model):
             models.UniqueConstraint(fields=["name", "phone"], name="customer_unique")
         ]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.name}({self.phone})"

@@ -45,7 +45,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-AUTH_USER_MODEL = "iamdt.IAMDTUser"
+AUTH_USER_MODEL = "iamdt.User"
 
 # Application definition
 
