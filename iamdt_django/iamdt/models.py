@@ -3,6 +3,9 @@ from django.db import models
 
 
 # Create your models here.
+from iamdt_util.validators import phone_validator
+
+
 class IAMDTUser(AbstractUser):
     """IAMDT 코딩테스트 프로젝트 기본 유저
 
@@ -31,7 +34,11 @@ class IAMDTUser(AbstractUser):
         "역할", choices=UserType.choices, default=UserType.EMPLOYEE, max_length=10
     )
     phone = models.CharField(
-        "연락처", blank=True, max_length=13, help_text="SMS 수신이 가능한 연락처"
+        "연락처",
+        blank=True,
+        max_length=13,
+        validators=[phone_validator],
+        help_text="SMS 수신이 가능한 연락처",
     )
     messenger = models.CharField(
         "메신저",
