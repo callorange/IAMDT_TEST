@@ -18,6 +18,8 @@ class CustomerModelTestCase(TestCase):
     고객 모델 테스트
     """
 
+    fixtures = ["user.json", "customer.json"]
+
     def setUp(self) -> None:
         # 고객 정보 생성
         for customer_info in test_customer_info:

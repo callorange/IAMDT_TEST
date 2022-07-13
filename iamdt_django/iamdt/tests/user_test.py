@@ -6,46 +6,6 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 
-test_user_info = [
-    {
-        "username": "doctor1",
-        "password": "d1111",
-        "role": "doctor",
-        "is_staff": True,
-        "phone": "01012345678",
-        "messenger": "kakaotalk",
-        "messenger_id": "doc1",
-    },
-    {
-        "username": "nurse1",
-        "password": "n1111",
-        "role": "nurse",
-        "is_staff": True,
-        "phone": "01012345678",
-        "messenger": "kakaotalk",
-        "messenger_id": "nurse1",
-    },
-    {
-        "username": "employee1",
-        "password": "e1111",
-        "role": "employee",
-        "is_staff": True,
-        "phone": "01012345678",
-        "messenger": "facebook",
-        "messenger_id": "e1",
-    },
-    {
-        "username": "dev1",
-        "password": "d1111",
-        "role": "developer",
-        "is_staff": True,
-        "is_superuser": True,
-        "phone": "01012345678",
-        "messenger": "line",
-        "messenger_id": "dev11",
-    },
-]
-
 user_model = get_user_model()
 user_type = user_model.UserType
 messenger_type = user_model.MessengerType
@@ -97,14 +57,22 @@ class UserModelTestCase(TestCase):
         아이디
         사용여부"""
 
+    fixtures = ["user.json"]
+
     def setUp(self) -> None:
-        # 유저 생성
-        for user_info in test_user_info:
-            user_model.objects.create_user(**user_info)
+        pass
 
     def test_info(self) -> None:
         """생성된 정보 확인"""
-        user_info = test_user_info[0]
+        user_info = {
+            "username": "doctor1",
+            "password": "doc12345678",
+            "role": "doctor",
+            "is_staff": True,
+            "phone": "01012345678",
+            "messenger": "kakaotalk",
+            "messenger_id": "doc1",
+        }
         user = user_model.objects.get(username=user_info["username"])
 
         # username 및 비밀번호 확인
@@ -117,10 +85,8 @@ class UserModelTestCase(TestCase):
         # 연락처 확인
         self.assertEqual(user.phone, user_info["phone"])
 
-        # 스태프/슈퍼유저 확인
+        # 스태프 확인
         self.assertEqual(user.is_staff, user_info["is_staff"])
-        if user_info.get("is_superuser", None):
-            self.assertEqual(user.is_superuser, user_info["is_superuser"])
 
         # 메신저 정보 확인
         self.assertEqual(user.messenger, user_info["messenger"])
@@ -128,8 +94,8 @@ class UserModelTestCase(TestCase):
 
     def test_filter(self) -> None:
         """유저모델 검색"""
-        # 스태프로 생성된 유저수는 4명
-        self.assertEqual(4, user_model.objects.filter(is_staff=True).count())
+        # 스태프로 생성된 유저수는 5명
+        self.assertEqual(5, user_model.objects.filter(is_staff=True).count())
         # 슈퍼유저로 생성된 유저수는 1명
         self.assertEqual(1, user_model.objects.filter(is_superuser=True).count())
 
@@ -142,7 +108,7 @@ class UserModelTestCase(TestCase):
             user_model.objects.filter(role=user_type.EMPLOYEE).count(),
         )
         self.assertEqual(
-            1,
+            2,
             user_model.objects.filter(role=user_type.DEVELOPER).count(),
         )
 
