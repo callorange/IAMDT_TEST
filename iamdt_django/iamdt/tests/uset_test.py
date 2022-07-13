@@ -3,8 +3,7 @@ from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-
-# Create your tests here.
+__all__ = ["IAMDTUserChoicesTestCase", "IAMDTUserModelTestCase"]
 
 test_user_info = [
     {
@@ -100,7 +99,7 @@ class IAMDTUserModelTestCase(TestCase):
     def setUp(self):
         # 유저 생성
         for user_info in test_user_info:
-            user = user_model.objects.create_user(**user_info)
+            user_model.objects.create_user(**user_info)
 
     def test_create_user(self):
         """생성된 정보 확인"""
