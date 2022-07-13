@@ -1,9 +1,10 @@
+__all__ = ["IAMDTUserChoicesTestCase", "IAMDTUserModelTestCase"]
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-__all__ = ["IAMDTUserChoicesTestCase", "IAMDTUserModelTestCase"]
 
 test_user_info = [
     {
