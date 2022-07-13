@@ -4,7 +4,8 @@ from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 from iamdt.models import Customer, Patient
-from iamdt.models.register import MedicalStage, Register
+from iamdt.models.register import Register
+from iamdt.models.choices import MedicalStage
 
 
 class MedicalStageChoicesTestCase(TestCase):
