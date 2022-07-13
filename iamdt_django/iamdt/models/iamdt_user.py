@@ -1,3 +1,5 @@
+__all__ = ["IAMDTUser"]
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -48,3 +50,7 @@ class IAMDTUser(AbstractUser):
         help_text="메신저 종류, 없다면 비워둘 것",
     )
     messenger_id = models.CharField("메신저 아이디", blank=True, max_length=100)
+
+    class Meta:
+        verbose_name = "유저"
+        verbose_name_plural = "유저 리스트"
