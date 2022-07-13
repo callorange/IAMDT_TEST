@@ -45,6 +45,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+AUTH_USER_MODEL = "iamdt.IAMDTUser"
+
 # Application definition
 
 INSTALLED_APPS = [
