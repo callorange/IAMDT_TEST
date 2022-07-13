@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import check_password
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 
 
@@ -154,3 +155,34 @@ class IAMDTUserModelTestCase(TestCase):
             0,
             user_model.objects.filter(messenger=messenger_type.TELEGRAM).count(),
         )
+
+    def test_user_info_validation(self):
+        """유저 정보 변경 검증"""
+        user_info = test_user_info[2]
+        user = user_model.objects.get(username=user_info["username"])
+
+        # 전화번호 잘못된 값 지정시 검증 실패
+        user.refresh_from_db()
+        user.phone = "asdf"
+        with self.assertRaises(ValidationError):
+            user.full_clean()
+
+        # role 잘못된 값 지정시 검증 실패
+        user.refresh_from_db()
+        user.role = "asdf"
+        with self.assertRaises(ValidationError):
+            user.full_clean()
+
+        # messenger 잘못된 값 지정시 검증 실패
+        user.refresh_from_db()
+        user.messenger = "asdf"
+        with self.assertRaises(ValidationError):
+            user.full_clean()
+
+        # 정상값을 지정하고 메신저 타입이 변경되었는지 확인
+        user.refresh_from_db()
+        user.messenger = messenger_type.TELEGRAM
+        user.full_clean()
+        user.save()
+        user.refresh_from_db()
+        self.assertEqual(user.messenger, messenger_type.TELEGRAM)
