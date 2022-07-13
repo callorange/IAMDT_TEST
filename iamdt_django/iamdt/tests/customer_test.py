@@ -26,7 +26,9 @@ class IAMDTCustomerModelTestCase(TestCase):
     def test_customer_info(self):
         """생성된 정보 확인"""
         customer_info = test_customer_info[0]
-        customer = Customer.objects.get(phone=customer_info["phone"])
+        customer = Customer.objects.get(
+            name=customer_info["name"], phone=customer_info["phone"]
+        )
 
         # 연락처 확인
         self.assertEqual(customer.phone, customer_info["phone"])
