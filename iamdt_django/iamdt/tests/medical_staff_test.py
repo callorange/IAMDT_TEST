@@ -1,12 +1,11 @@
 __all__ = ["MedicalStaffModelTestCase"]
 
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
 from django.db.models import Max, Subquery
 from django.test import TestCase
 
 from iamdt.models import MedicalDetail
-from iamdt.models.choices import MedicalStage, MedicalStageStatus
+from iamdt.models.choices import MedicalStageStatus
 
 
 class MedicalStaffModelTestCase(TestCase):
@@ -18,7 +17,7 @@ class MedicalStaffModelTestCase(TestCase):
         "patient.json",
         "medical_register.json",
         "medical_detail.json",
-        # "medical_staff.json",
+        "medical_staff.json",
     ]
 
     def setUp(self) -> None:
@@ -39,7 +38,7 @@ class MedicalStaffModelTestCase(TestCase):
     def test_filter_staff_doctor(self) -> None:
         """스태프(의사) 기준 필터링"""
         self.assertEqual(
-            0,
+            1,
             self.doctor1.schedule.filter(status=MedicalStageStatus.WAIT)
             .filter(id__in=Subquery(self.details.values("id")))
             .count(),
