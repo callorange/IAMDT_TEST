@@ -16,4 +16,5 @@ class MedicalStage(models.TextChoices):
 class MedicalStageStatus(models.TextChoices):
     """진료 단계 상태(대기/완료)"""
 
-    pass
+    WAIT = "wait", "대기"
+    COMPLETE = "complete", "완료"
