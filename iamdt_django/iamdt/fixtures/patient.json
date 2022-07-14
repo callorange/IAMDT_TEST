@@ -4,7 +4,7 @@
 		"pk": 1,
 		"fields": {
 			"companion": 1,
-			"name": "같은이름",
+			"name": "환자1",
 			"created_at": "2022-07-13T10:28:31.680Z",
 			"updated_at": "2022-07-13T10:30:21.885Z"
 		}
@@ -44,7 +44,7 @@
 		"pk": 5,
 		"fields": {
 			"companion": 4,
-			"name": "같은이름",
+			"name": "환자5",
 			"created_at": "2022-07-13T10:28:31.680Z",
 			"updated_at": "2022-07-13T10:30:21.885Z"
 		}
