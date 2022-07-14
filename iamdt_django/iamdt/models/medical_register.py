@@ -23,7 +23,7 @@ class MedicalRegister(models.Model):
         verbose_name_plural = "진료 접수 리스트"
 
     def __str__(self) -> str:
-        return f"{self.patient.name}/{self.current_stage}"
+        return f"{self.patient} / 진료{self.id}"
 
     @property
     def current_stage(self) -> str:

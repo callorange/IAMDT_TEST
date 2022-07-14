@@ -3,7 +3,14 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib.auth.admin import UserAdmin
 
-from iamdt.models import User, Customer, Patient, MedicalRegister
+from iamdt.models import (
+    User,
+    Customer,
+    Patient,
+    MedicalRegister,
+    MedicalDetail,
+    MedicalStaff,
+)
 
 
 @admin.register(User)
@@ -30,14 +37,51 @@ class IAMDTUserAdmin(UserAdmin):
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Customer._meta.get_fields()]
+    list_display = (
+        "name",
+        "phone",
+        "created_at",
+        "updated_at",
+    )
+    readonly_fields = ("created_at", "updated_at")
 
 
 @admin.register(Patient)
-class CustomerAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Patient._meta.get_fields()]
+class PatientAdmin(admin.ModelAdmin):
+    list_display = (
+        "companion",
+        "name",
+        "created_at",
+        "updated_at",
+    )
+    readonly_fields = ("created_at", "updated_at")
 
 
 @admin.register(MedicalRegister)
-class CustomerAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in MedicalRegister._meta.get_fields()]
+class MedicalRegisterAdmin(admin.ModelAdmin):
+    list_display = (
+        "patient",
+        "created_at",
+        "updated_at",
+    )
+    readonly_fields = ("created_at", "updated_at")
+
+
+@admin.register(MedicalDetail)
+class MedicalDetailAdmin(admin.ModelAdmin):
+    list_display = (
+        "register",
+        "stage",
+        "status",
+        "creator",
+        "created_at",
+        "updated_at",
+    )
+    filter_horizontal = ("staff",)
+    readonly_fields = ("created_at", "updated_at")
+
+
+@admin.register(MedicalStaff)
+class MedicalStaffAdmin(admin.ModelAdmin):
+    list_display = ("detail", "staff", "created_at")
+    readonly_fields = ("created_at",)
