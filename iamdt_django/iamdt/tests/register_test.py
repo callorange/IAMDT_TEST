@@ -1,9 +1,9 @@
-__all__ = ["RegistrationModelTestCase"]
+__all__ = ["MedicalStageChoicesTestCase", "RegisterModelTestCase"]
 
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from iamdt.models import Customer, Patient
+from iamdt.models import Patient
 from iamdt.models.register import Register
 from iamdt.models.choices import MedicalStage
 
@@ -45,7 +45,7 @@ class MedicalStageChoicesTestCase(TestCase):
         self.assertEqual(stage_labels, MedicalStage.labels)
 
 
-class RegistrationModelTestCase(TestCase):
+class RegisterModelTestCase(TestCase):
     """진료 접수 모델 테스트"""
 
     fixtures = ["user.json", "customer.json", "patient.json", "register.json"]

@@ -11,3 +11,10 @@ class MedicalStage(models.TextChoices):
     COUNSELING = "counseling", "결과 설명/상담"
     PAYMENT = "payment", "수납"
     DISCHARGE = "discharge", "퇴원"
+
+
+class MedicalStageStatus(models.TextChoices):
+    """진료 단계 상태(대기/완료)"""
+
+    WAIT = "wait", "대기"
+    COMPLETE = "complete", "완료"
