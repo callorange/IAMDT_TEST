@@ -82,6 +82,7 @@ class MedicalStaff(models.Model):
     class Meta:
         verbose_name = "진료단계별 담당자"
         verbose_name_plural = "진료단계별 담당자"
+        ordering = ["id"]
 
     def __str__(self) -> str:
         return f"{self.staff}/{self.detail}"

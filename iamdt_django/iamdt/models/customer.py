@@ -25,6 +25,7 @@ class Customer(models.Model):
         constraints = [
             models.UniqueConstraint(fields=["name", "phone"], name="customer_unique")
         ]
+        ordering = ["id"]
 
     def __str__(self) -> str:
         return f"{self.name}({self.phone})"
