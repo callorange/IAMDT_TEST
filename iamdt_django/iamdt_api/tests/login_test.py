@@ -74,10 +74,7 @@ class LoginApiTestCase(APITestCase):
 
     def test_logout_url(self) -> None:
         """로그아웃 URL로 로그아웃 되는지"""
-        self.client.post(
-            self.login_url,
-            data={"username": "doctor1", "password": "doc12345678"},
-            format="json",
-        )  # 로그인 처리를 먼저 한다.
+        # 로그인 처리를 먼저 한다.
+        self.client.login(**{"username": "doctor1", "password": "doc12345678"})
         response = self.client.get(self.logout_url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

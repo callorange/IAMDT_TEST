@@ -59,8 +59,6 @@ class Login(APIView):
 class Logout(generics.GenericAPIView):
     """로그아웃 API"""
 
-    permission_classes = [permissions.IsAuthenticated]
-
     @extend_schema(
         tags=["인증"],
         summary="로그아웃 요청 처리",
