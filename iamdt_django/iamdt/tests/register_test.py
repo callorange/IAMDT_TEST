@@ -7,6 +7,26 @@ from iamdt.models import Customer, Patient
 from iamdt.models.register import Register
 from iamdt.models.choices import MedicalStage
 
+stage_names = [
+    "REGISTER",
+    "EXAMINATION",
+    "DIAGNOSYS",
+    "TREATMENT",
+    "COUNSELING",
+    "PAYMENT",
+    "DISCHARGE",
+]
+stage_values = [
+    "register",
+    "examination",
+    "diagnosys",
+    "treatment",
+    "counseling",
+    "payment",
+    "discharge",
+]
+stage_labels = ["접수", "진료", "진단", "처치", "결과 설명/상담", "수납", "퇴원"]
+
 
 class MedicalStageChoicesTestCase(TestCase):
     """
@@ -20,26 +40,6 @@ class MedicalStageChoicesTestCase(TestCase):
 
     def test_stage(self) -> None:
         """Role 종류 Choices 확인"""
-
-        stage_names = [
-            "REGISTER",
-            "EXAMINATION",
-            "DIAGNOSYS",
-            "TREATMENT",
-            "COUNSELING",
-            "PAYMENT",
-            "DISCHARGE",
-        ]
-        stage_values = [
-            "register",
-            "examination",
-            "diagnosys",
-            "treatment",
-            "counseling",
-            "payment",
-            "discharge",
-        ]
-        stage_labels = ["접수", "진료", "진단", "처치", "결과 설명/상담", "수납", "퇴원"]
         self.assertEqual(stage_names, MedicalStage.names)
         self.assertEqual(stage_values, MedicalStage.values)
         self.assertEqual(stage_labels, MedicalStage.labels)
@@ -55,13 +55,13 @@ class RegistrationModelTestCase(TestCase):
         # 환자 {"pk":5,"companion": 4,"name": "환자5"}
         self.patient = Patient.objects.last()
 
-        # 접수 {"id":1"patient": 1,"stage": "register"}
+        # 접수 {"id":1"patient": 1,"stage": "discharge"}
         self.register = Register.objects.first()
 
     def test_info(self) -> None:
         """생성된 정보 확인"""
         self.assertEqual(self.register.patient, Patient.objects.get(id=1))
-        self.assertEqual(self.register.stage, MedicalStage.REGISTER)
+        self.assertEqual(self.register.stage, MedicalStage.DISCHARGE)
 
     def test_filter(self) -> None:
         """진료 접수 모델 검색"""
@@ -76,26 +76,25 @@ class RegistrationModelTestCase(TestCase):
 
     def test_validation_patient(self):
         """진료 접수 환자 검증"""
-        self.register.patient = None
         with self.assertRaises(ValidationError):
+            self.register.patient = None
             self.register.full_clean()
 
-        self.register.patient = 9999
-        with self.assertRaises(ValidationError):
-            self.register.full_clean()
+        with self.assertRaises(ValueError):
+            self.register.patient = 9999
 
     def test_validation_stage(self):
         """진료 접수 단계 검증"""
-        self.register.stage = None
         with self.assertRaises(ValidationError):
+            self.register.stage = None
             self.register.full_clean()
 
-        self.register.stage = ""
         with self.assertRaises(ValidationError):
+            self.register.stage = ""
             self.register.full_clean()
 
-        self.register.stage = "asdf"
         with self.assertRaises(ValidationError):
+            self.register.stage = "asdf"
             self.register.full_clean()
 
         self.register.stage = MedicalStage.EXAMINATION
