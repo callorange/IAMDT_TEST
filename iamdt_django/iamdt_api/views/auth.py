@@ -10,7 +10,7 @@ from rest_framework import generics, permissions, exceptions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from iamdt_api.serializers import LoginSerializer, StaffSerializer
+from iamdt_api.serializers import LoginSerializer, StaffInfoSerializer
 
 
 class Login(APIView):
@@ -23,7 +23,7 @@ class Login(APIView):
         summary="로그인 요청 처리",
         request=LoginSerializer,
         responses={
-            200: StaffSerializer,
+            200: StaffInfoSerializer,
             400: OpenApiResponse(description="Bad request"),
         },
     )
@@ -32,7 +32,7 @@ class Login(APIView):
         serializer = self._validate(request)
         self._authenticate(request, serializer)
         return Response(
-            StaffSerializer(request.user).data,
+            StaffInfoSerializer(request.user).data,
             status=status.HTTP_200_OK,
         )
 
@@ -58,8 +58,6 @@ class Login(APIView):
 
 class Logout(generics.GenericAPIView):
     """로그아웃 API"""
-
-    permission_classes = [permissions.IsAuthenticated]
 
     @extend_schema(
         tags=["인증"],

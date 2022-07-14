@@ -24,6 +24,7 @@ class Patient(models.Model):
     class Meta:
         verbose_name = "환자"
         verbose_name_plural = "환자 리스트"
+        ordering = ["id"]
 
     def __str__(self) -> str:
         return f"{self.companion} / {self.name}"

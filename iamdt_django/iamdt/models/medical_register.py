@@ -21,6 +21,7 @@ class MedicalRegister(models.Model):
     class Meta:
         verbose_name = "진료 접수"
         verbose_name_plural = "진료 접수 리스트"
+        ordering = ["id"]
 
     def __str__(self) -> str:
         return f"{self.patient} / 진료{self.id}"

@@ -175,12 +175,12 @@ REST_FRAMEWORK = {
         # 'rest_framework.parsers.MultiPartParser'
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
-        # 'rest_framework.permissions.IsAdminUser',
         # 'rest_framework.permissions.AllowAny',
+        # "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.IsAdminUser",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "DEFAULT_PAGINATION_CLASS": "iamdt_api.pagination.ApiPageNumberPagination",
     "PAGE_SIZE": 10,
 }
 
@@ -191,6 +191,13 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
     # OTHER SETTINGS
+    "ENUM_NAME_OVERRIDES": {
+        # 'CurrencyEnum': 'import_path.CurrencyContainer.choices',
+        "EnumUserType": "iamdt.models.User.UserType",
+        "EnumMessengerType": "iamdt.models.User.MessengerType",
+        "EnumMedicalStage": "iamdt.models.choices.MedicalStage",
+        "EnumMedicalStageStatus": "iamdt.models.choices.MedicalStageStatus",
+    },
 }
 
 # django-silk
