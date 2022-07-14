@@ -17,7 +17,7 @@ class StaffSerializerTestCase(TestCase):
     def test_serializer_validation_user(self) -> None:
         """유저 객체가 지정됬을때"""
         serializer = StaffSerializer(self.staff)
-        self.assertTrue(serializer.is_valid())
+        self.assertEqual("doctor1", serializer.data["username"])
 
     def test_serializer_data(self) -> None:
         """데이터가 개별 지정됫을때"""
@@ -37,7 +37,7 @@ class StaffSerializerTestCase(TestCase):
         serializer = StaffSerializer(
             data={
                 "username": "doctor1",
-                "phone": "01012345678",
+                "role": "doctor",
                 "messenger": "kakaotalk",
                 "messenger_id": "doc1",
             }

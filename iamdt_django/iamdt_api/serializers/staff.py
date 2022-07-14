@@ -13,7 +13,7 @@ from rest_framework import serializers
 class StaffSerializer(serializers.ModelSerializer):
     """django user serializer"""
 
-    role_display = serializers.CharField(source="get_role_display")
+    role_display = serializers.CharField(source="get_role_display", read_only=True)
 
     class Meta:
         model = get_user_model()
@@ -23,6 +23,7 @@ class StaffSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "role",
+            "role_display",
             "phone",
             "messenger",
             "messenger_id",
