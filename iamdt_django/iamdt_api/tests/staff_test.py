@@ -1,6 +1,5 @@
 __all__ = ["StaffSerializerTestCase", "StaffApiTestCase"]
 
-import json
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -70,13 +69,22 @@ class StaffApiTestCase(APITestCase):
         self.staff_list_url = reverse("api:staff:list")
         self.staff_info_url = reverse("api:staff:detail", kwargs={"id": 2})
 
-        self.user_data = {"username": "doctor1", "password": "doc12345678"}
-        self.client.login(**self.user_data)
+        self.doc1_data = {"username": "doctor1", "password": "doc12345678"}
+        self.new_doc_data = {
+            "username": "doctor2",
+            "first_name": "name222222",
+            "last_name": "doc",
+            "role": "doctor",
+            "phone": "01012345678",
+            "messenger": "kakaotalk",
+            "messenger_id": "doc2",
+        }
+        self.client.login(**self.doc1_data)
 
     def test_url_reverse(self) -> None:
         """URL reverse로 django에 url이 등록되었는지 확인"""
-        self.assertURLEqual("/api/staff", self.staff_list_url)
-        self.assertURLEqual("/api/staff/2", self.staff_info_url)
+        self.assertURLEqual("/api/staffs", self.staff_list_url)
+        self.assertURLEqual("/api/staffs/2", self.staff_info_url)
 
     def test_url_options(self) -> None:
         """URL에 options 요청이 가는지 확인"""
@@ -103,41 +111,31 @@ class StaffApiTestCase(APITestCase):
     def test_staff_create(self) -> None:
         """staff 등록"""
         response = self.client.post(
-            self.staff_list_url, data=self.user_data, format="json"
+            self.staff_list_url, data=self.new_doc_data, format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["username"], self.new_doc_data["username"])
 
     def test_staff_info(self) -> None:
         """staff 정보"""
         response = self.client.get(self.staff_info_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["username"], self.user_data["username"])
+        self.assertEqual(response.data["username"], self.doc1_data["username"])
 
     def test_staff_patch(self) -> None:
         """staff 정보 업데이트"""
         response = self.client.patch(
-            self.staff_list_url, data={"phone": ""}, format="json"
+            self.staff_info_url, data={"phone": ""}, format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
         response = self.client.patch(
-            self.staff_list_url, data={"phone": "01099999999"}, format="json"
+            self.staff_info_url, data={"phone": "01099999999"}, format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_staff_put(self) -> None:
         """staff 정보 업데이트"""
-        # 데이터 부실 403
-        response = self.client.patch(
-            self.staff_info_url,
-            data={
-                "first_name": "name2",
-                "last_name": "doc",
-                "role": "doctor",
-            },
-            format="json",
-        )
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
         # 성공
         response = self.client.patch(
             self.staff_info_url,

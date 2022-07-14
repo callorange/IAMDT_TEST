@@ -64,8 +64,7 @@ class StaffSerializer(serializers.ModelSerializer):
             "phone",
             "messenger",
             "messenger_id",
+            "is_staff",
+            "is_superuser",
         ]
-        read_only_fields = [
-            "id",
-            "username",
-        ]
+        read_only_fields = ["id", "username", "is_staff", "is_superuser"]
