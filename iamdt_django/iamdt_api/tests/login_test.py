@@ -2,7 +2,6 @@ __all__ = ["LoginSerializerTestCase", "LoginApiTestCase"]
 
 from django.test import TestCase
 from rest_framework import status
-from rest_framework.exceptions import ValidationError
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
@@ -11,15 +10,6 @@ from iamdt_api.serializers.login import LoginSerializer
 
 class LoginSerializerTestCase(TestCase):
     """로그인을 위한 시리얼라이저 테스트"""
-
-    fixtures = [
-        "user.json",
-        "customer.json",
-        "patient.json",
-        "medical_register.json",
-        "medical_detail.json",
-        "medical_staff.json",
-    ]
 
     def test_serializer_validation_username(self) -> None:
         """계정명 검증 테스트"""
@@ -57,7 +47,7 @@ class LoginApiTestCase(APITestCase):
 
     def test_login_url_check(self) -> None:
         """로그인 URL이 예정대로인지"""
-        self.assertURLEqual("/api/login", self.login_url)
+        self.assertURLEqual("/api/auth/login", self.login_url)
 
     def test_login_url_head(self) -> None:
         """로그인 URL에 접속이 가능한지"""
@@ -75,7 +65,7 @@ class LoginApiTestCase(APITestCase):
 
     def test_logout_url_check(self) -> None:
         """로그아웃 URL이 예정대로인지"""
-        self.assertURLEqual("/api/login", self.logout_url)
+        self.assertURLEqual("/api/auth/login", self.logout_url)
 
     def test_logout_url_head(self) -> None:
         """로그아웃 URL에 접속이 가능한지"""
