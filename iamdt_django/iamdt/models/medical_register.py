@@ -1,12 +1,11 @@
-__all__ = ["Register"]
+__all__ = ["MedicalRegister"]
 
 from django.db import models
 
 from iamdt.models import Patient
-from iamdt.models.choices import MedicalStage
 
 
-class Register(models.Model):
+class MedicalRegister(models.Model):
     """진료 접수 모델"""
 
     patient = models.ForeignKey(
@@ -14,13 +13,6 @@ class Register(models.Model):
         related_name="registers",
         verbose_name="환자",
         on_delete=models.PROTECT,
-    )
-
-    stage = models.CharField(
-        "현재단계",
-        choices=MedicalStage.choices,
-        default=MedicalStage.REGISTER,
-        max_length=15,
     )
 
     created_at = models.DateTimeField("등록일", auto_now_add=True)
@@ -31,4 +23,9 @@ class Register(models.Model):
         verbose_name_plural = "진료 접수 리스트"
 
     def __str__(self) -> str:
-        return f"{self.patient.name} - {self.get_stage_display()}"
+        return f"{self.patient.name}/{self.current_stage}"
+
+    @property
+    def current_stage(self) -> str:
+        """진료 접수의 현재 상태 반환"""
+        return str(self.details.last())

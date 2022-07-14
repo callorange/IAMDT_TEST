@@ -1,60 +1,54 @@
 [
 	{
-		"model": "iamdt.Register",
+		"model": "iamdt.MedicalRegister",
 		"pk": 1,
 		"fields": {
 			"patient": 1,
-			"stage": "discharge",
 			"created_at": "2022-07-13T10:28:31.680Z",
 			"updated_at": "2022-07-13T10:30:21.885Z"
 		}
 	},
 	{
-		"model": "iamdt.Register",
+		"model": "iamdt.MedicalRegister",
 		"pk": 2,
 		"fields": {
 			"patient": 1,
-			"stage": "examination",
 			"created_at": "2022-07-13T10:28:31.680Z",
 			"updated_at": "2022-07-13T10:30:21.885Z"
 		}
 	},
 	{
-		"model": "iamdt.Register",
+		"model": "iamdt.MedicalRegister",
 		"pk": 3,
 		"fields": {
 			"patient": 2,
-			"stage": "register",
 			"created_at": "2022-07-13T10:28:31.680Z",
 			"updated_at": "2022-07-13T10:30:21.885Z"
 		}
 	},
 	{
-		"model": "iamdt.Register",
+		"model": "iamdt.MedicalRegister",
 		"pk": 4,
 		"fields": {
 			"patient": 3,
-			"stage": "register",
 			"created_at": "2022-07-13T10:28:31.680Z",
 			"updated_at": "2022-07-13T10:30:21.885Z"
 		}
 	},
 	{
-		"model": "iamdt.Register",
+		"model": "iamdt.MedicalRegister",
 		"pk": 5,
 		"fields": {
 			"patient": 4,
-			"stage": "register",
 			"created_at": "2022-07-13T10:28:31.680Z",
 			"updated_at": "2022-07-13T10:30:21.885Z"
 		}
 	},
 	{
-		"model": "iamdt.Register",
+		"model": "iamdt.MedicalRegister",
 		"pk": 6,
 		"fields": {
 			"patient": 5,
-			"stage": "register",
 			"created_at": "2022-07-13T10:28:31.680Z",
 			"updated_at": "2022-07-13T10:30:21.885Z"
 		}

@@ -3,13 +3,53 @@ __all__ = ["MedicalStageStatusChoicesTestCase", "MedicalDetailModelTestCase"]
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from iamdt.models import Register, Patient
+from iamdt.models import MedicalRegister, Patient
 from iamdt.models.choices import MedicalStageStatus, MedicalStage
 from iamdt.models.medical_detail import MedicalDetail
 
 
+class MedicalStageChoicesTestCase(TestCase):
+    """
+    진료 단계 choices 클래스 테스트
+    """
+
+    def setUp(self):
+        pass
+
+    def test_stage_names(self) -> None:
+        """Choices name 확인"""
+        stage_names = [
+            "REGISTER",
+            "EXAMINATION",
+            "DIAGNOSYS",
+            "TREATMENT",
+            "COUNSELING",
+            "PAYMENT",
+            "DISCHARGE",
+        ]
+        self.assertEqual(stage_names, MedicalStage.names)
+
+    def test_stage_values(self) -> None:
+        """Choices value 확인"""
+        stage_values = [
+            "register",
+            "examination",
+            "diagnosys",
+            "treatment",
+            "counseling",
+            "payment",
+            "discharge",
+        ]
+        self.assertEqual(stage_values, MedicalStage.values)
+
+    def test_stage_labels(self) -> None:
+        """Choices label 확인"""
+        stage_labels = ["접수", "진료", "진단", "처치", "결과 설명/상담", "수납", "퇴원"]
+        self.assertEqual(stage_labels, MedicalStage.labels)
+
+
 class MedicalStageStatusChoicesTestCase(TestCase):
-    """각 진료 단계별 대기/완료 여부 choices 테스트"""
+    """진료 단계 상태(대기/완료) choices 테스트"""
 
     def setUp(self):
         pass
@@ -37,7 +77,7 @@ class MedicalDetailModelTestCase(TestCase):
         "user.json",
         "customer.json",
         "patient.json",
-        "register.json",
+        "medical_register.json",
         "medical_detail.json",
     ]
 
@@ -46,7 +86,7 @@ class MedicalDetailModelTestCase(TestCase):
 
     def test_filter_register(self) -> None:
         """접수등록 기준 필터링"""
-        register = Register.objects.first()
+        register = MedicalRegister.objects.first()
         self.assertEqual(4, MedicalDetail.objects.filter(register=register).count())
 
     def test_filter_stage(self) -> None:

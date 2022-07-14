@@ -3,7 +3,7 @@ __all__ = ["MedicalDetail"]
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from iamdt.models import Register
+from iamdt.models import MedicalRegister
 from iamdt.models.choices import MedicalStage, MedicalStageStatus
 
 
@@ -11,7 +11,7 @@ class MedicalDetail(models.Model):
     """진료 내역 모델"""
 
     register = models.ForeignKey(
-        Register,
+        MedicalRegister,
         related_name="details",
         verbose_name="진료접수",
         on_delete=models.PROTECT,

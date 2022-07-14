@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib.auth.admin import UserAdmin
 
-from iamdt.models import User, Customer, Patient, Register
+from iamdt.models import User, Customer, Patient, MedicalRegister
 
 
 @admin.register(User)
@@ -38,6 +38,6 @@ class CustomerAdmin(admin.ModelAdmin):
     list_display = [field.name for field in Patient._meta.get_fields()]
 
 
-@admin.register(Register)
+@admin.register(MedicalRegister)
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = [field.name for field in Register._meta.get_fields()]
+    list_display = [field.name for field in MedicalRegister._meta.get_fields()]
