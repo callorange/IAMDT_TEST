@@ -4,7 +4,7 @@
 		"pk": 1,
 		"fields": {
 			"patient": 1,
-			"stage": "register",
+			"stage": "discharge",
 			"created_at": "2022-07-13T10:28:31.680Z",
 			"updated_at": "2022-07-13T10:30:21.885Z"
 		}
