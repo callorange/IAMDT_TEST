@@ -58,7 +58,7 @@ class MedicalDetailModelTestCase(TestCase):
     def test_filter_status(self) -> None:
         """진료 단계별 상태 기준 필터링"""
         self.assertEqual(
-            1, MedicalDetail.objects.filter(status=MedicalStageStatus.COMPLETE).count()
+            1, MedicalDetail.objects.filter(status=MedicalStageStatus.WAIT).count()
         )
 
     def test_filter_stage_status(self) -> None:
@@ -73,19 +73,22 @@ class MedicalDetailModelTestCase(TestCase):
     def test_filter_patient(self) -> None:
         """환자 진료 내역 필터링"""
         paitent = Patient.objects.get(id=1)
-        count = MedicalDetail.objects.filter(register__in=paitent.registers).count()
-        self.assertEqual(5, count)
+        count = MedicalDetail.objects.filter(
+            register__in=paitent.registers.all()
+        ).count()
+        self.assertEqual(6, count)
 
     def test_valiation_register(self) -> None:
-        """접수등록 검증(외래키는 엉뚱한게 오면 ValueError)"""
-        with self.assertRaises(ValueError):
-            self.last = None
+        """접수등록 검증"""
+        with self.assertRaises(ValidationError):
+            self.last.register = None
+            self.last.full_clean()
 
         with self.assertRaises(ValueError):
-            self.last = ""
+            self.last.register = ""
 
         with self.assertRaises(ValueError):
-            self.last = 999
+            self.last.register = 999
 
     def test_valiation_stage(self) -> None:
         """단게 등록 검증"""
@@ -120,14 +123,12 @@ class MedicalDetailModelTestCase(TestCase):
     def test_valiation_creator(self) -> None:
         """등록자 검증"""
 
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValidationError):
             self.last.creator = None
             self.last.full_clean()
 
         with self.assertRaises(ValueError):
             self.last.creator = ""
-            self.last.full_clean()
 
         with self.assertRaises(ValueError):
             self.last.creator = 19238
-            self.last.full_clean()
