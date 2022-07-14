@@ -9,6 +9,7 @@ from rest_framework import serializers
 
 
 @extend_schema_serializer(
+    component_name="Login",
     examples=[
         OpenApiExample(
             name="로그인 성공",

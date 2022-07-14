@@ -56,3 +56,4 @@ class User(AbstractUser):
     class Meta:
         verbose_name = "유저"
         verbose_name_plural = "유저 리스트"
+        ordering = ["id"]

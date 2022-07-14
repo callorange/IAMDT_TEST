@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase, APIClient
 
-from iamdt_api.serializers import StaffSerializer
+from iamdt_api.serializers import StaffInfoSerializer
 
 
 class StaffSerializerTestCase(TestCase):
@@ -20,12 +20,12 @@ class StaffSerializerTestCase(TestCase):
 
     def test_serializer_validation_user(self) -> None:
         """유저 객체가 지정됬을때"""
-        serializer = StaffSerializer(self.staff)
+        serializer = StaffInfoSerializer(self.staff)
         self.assertEqual("doctor1", serializer.data["username"])
 
     def test_serializer_data(self) -> None:
         """데이터가 개별 지정됫을때"""
-        serializer = StaffSerializer(
+        serializer = StaffInfoSerializer(
             data={
                 "username": "doctor1",
                 "role": "doctor",
@@ -38,7 +38,7 @@ class StaffSerializerTestCase(TestCase):
 
     def test_serializer_false_data(self) -> None:
         """데이터가 개별 지정됫을때"""
-        serializer = StaffSerializer(
+        serializer = StaffInfoSerializer(
             data={
                 "username": "doctor1",
                 "role": "doctor",
@@ -72,6 +72,7 @@ class StaffApiTestCase(APITestCase):
         self.doc1_data = {"username": "doctor1", "password": "doc12345678"}
         self.new_doc_data = {
             "username": "doctor2",
+            "password": "doc12345678",
             "first_name": "name222222",
             "last_name": "doc",
             "role": "doctor",
@@ -105,7 +106,7 @@ class StaffApiTestCase(APITestCase):
 
     def test_staff_list(self) -> None:
         """staff list 확인"""
-        response = self.client.get(self.staff_list_url, {"page_size": 1})
+        response = self.client.get(self.staff_list_url, data={"page_size": 1})
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_staff_create(self) -> None:

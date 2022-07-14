@@ -191,6 +191,13 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
     # OTHER SETTINGS
+    "ENUM_NAME_OVERRIDES": {
+        # 'CurrencyEnum': 'import_path.CurrencyContainer.choices',
+        "EnumUserType": "iamdt.models.User.UserType",
+        "EnumMessengerType": "iamdt.models.User.MessengerType",
+        "EnumMedicalStage": "iamdt.models.choices.MedicalStage",
+        "EnumMedicalStageStatus": "iamdt.models.choices.MedicalStageStatus",
+    },
 }
 
 # django-silk
