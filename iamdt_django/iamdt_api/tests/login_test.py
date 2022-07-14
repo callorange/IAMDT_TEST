@@ -42,8 +42,8 @@ class LoginApiTestCase(APITestCase):
     ]
 
     def setUp(self) -> None:
-        self.login_url = reverse("api:login")
-        self.logout_url = reverse("api:logout")
+        self.login_url = reverse("api:auth:login")
+        self.logout_url = reverse("api:auth:logout")
 
     def test_login_url_check(self) -> None:
         """로그인 URL이 예정대로인지"""
