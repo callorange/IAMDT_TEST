@@ -26,4 +26,4 @@ class Patient(models.Model):
         verbose_name_plural = "환자 리스트"
 
     def __str__(self) -> str:
-        return f"{self.name}({self.companion.name})"
+        return f"{self.companion} / {self.name}"
