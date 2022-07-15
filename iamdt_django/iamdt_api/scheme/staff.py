@@ -2,9 +2,42 @@
 스태프 API 문서화 관련 데이터
 """
 
-__all__ = ["STAFF_API_EXAMPLES"]
+__all__ = ["STAFF_API_SEARCH_QUERY", "STAFF_API_EXAMPLES"]
 
-from drf_spectacular.utils import OpenApiExample
+from django.contrib.auth import get_user_model
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiExample, OpenApiParameter
+
+# 스태프 검색 쿼리
+STAFF_API_SEARCH_QUERY = [
+    OpenApiParameter(
+        "username",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        description="스태프 계정명 검색",
+    ),
+    OpenApiParameter(
+        "role",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        enum=get_user_model().UserType,
+        description="지정된 스태프 역할로 검색",
+    ),
+    OpenApiParameter(
+        "phone",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        enum=get_user_model().UserType,
+        description="전화번호로 검색",
+    ),
+    OpenApiParameter(
+        "o",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        enum=["username", "role", "created_at", "-username", "-role", "-created_at"],
+        description="정렬조건.",
+    ),
+]
 
 _read_example = [
     OpenApiExample(

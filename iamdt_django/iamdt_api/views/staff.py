@@ -5,15 +5,18 @@ Staff API View
 __all__ = ["StaffList", "StaffDetail"]
 
 from django.contrib.auth import get_user_model
-from django.db.models import ProtectedError, Subquery
+from django.db.models import ProtectedError
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework import generics, permissions, exceptions
 
+from django_filters import rest_framework as filters
+
 from iamdt.models import MedicalRegister, MedicalService
 from iamdt_api import permissions as perms
+from iamdt_api.filter_set import StaffFilter
 from iamdt_api.scheme import PAGINATION_QUERY_SCHEME
 from iamdt_api.scheme.medical_service import SERVICE_API_EXAMPLES
-from iamdt_api.scheme.staff import STAFF_API_EXAMPLES
+from iamdt_api.scheme.staff import STAFF_API_EXAMPLES, STAFF_API_SEARCH_QUERY
 from iamdt_api.serializers import StaffInfoSerializer, StaffAddSerializer
 from iamdt_api.serializers.medical_register import MedicalRegisterInfoSerializer
 from iamdt_api.serializers.medical_service import MedicalServiceInfoSerializer
@@ -26,6 +29,9 @@ class StaffList(generics.ListCreateAPIView):
 
     permission_classes = [permissions.IsAdminUser]  # is_staff 만
     queryset = user_model.objects.filter(is_staff=True).order_by("-id")
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = StaffFilter
 
     def get_serializer_class(self):
         """post일때는 등록용 시리얼라이저를 반환하도록 한다"""
@@ -41,7 +47,7 @@ class StaffList(generics.ListCreateAPIView):
             200: StaffInfoSerializer,
             403: OpenApiResponse(description="인증 없는 액세스"),
         },
-        parameters=PAGINATION_QUERY_SCHEME,
+        parameters=PAGINATION_QUERY_SCHEME + STAFF_API_SEARCH_QUERY,
         examples=STAFF_API_EXAMPLES["read"],
     )
     def get(self, request, *args, **kwargs):
