@@ -8,11 +8,18 @@ from django.db.models import ProtectedError
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework import generics, permissions, exceptions
 
+from django_filters import rest_framework as filters
+
 from iamdt.models import Patient, MedicalRegister
+from iamdt_api.filter_set import PatientFilter
 from iamdt_api.scheme import PAGINATION_QUERY_SCHEME
 from iamdt_api.scheme.medical_service import SERVICE_API_EXAMPLES
 from iamdt_api.serializers import PatientInfoSerializer
-from iamdt_api.scheme.patient import PATIENT_API_EXAMPLES, PATIENT_API_URL_PARAM
+from iamdt_api.scheme.patient import (
+    PATIENT_API_EXAMPLES,
+    PATIENT_API_URL_PARAM,
+    PATIENT_API_SEARCH_QUERY,
+)
 from iamdt_api.serializers.medical_register import MedicalRegisterInfoSerializer
 from iamdt_api.serializers.medical_service import MedicalServiceInfoSerializer
 
@@ -24,6 +31,9 @@ class PatientList(generics.ListCreateAPIView):
     queryset = Patient.objects.order_by("-id")
     serializer_class = PatientInfoSerializer
 
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = PatientFilter
+
     @extend_schema(
         tags=["환자"],
         summary="환자 검색",
@@ -32,7 +42,7 @@ class PatientList(generics.ListCreateAPIView):
             200: PatientInfoSerializer,
             403: OpenApiResponse(description="인증 없는 액세스"),
         },
-        parameters=PAGINATION_QUERY_SCHEME,
+        parameters=PAGINATION_QUERY_SCHEME + PATIENT_API_SEARCH_QUERY,
         examples=PATIENT_API_EXAMPLES["read"],
     )
     def get(self, request, *args, **kwargs):

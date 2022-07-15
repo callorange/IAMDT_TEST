@@ -2,12 +2,12 @@
 API 검색 설정을 위한 FilterSet 모듈
 """
 
-__all__ = ["MedicalRegisterFilter", "StaffFilter", "CustomerFilter"]
+__all__ = ["MedicalRegisterFilter", "StaffFilter", "CustomerFilter", "PatientFilter"]
 
 from django.contrib.auth import get_user_model
 from django_filters import rest_framework as filters
 
-from iamdt.models import MedicalRegister, Customer
+from iamdt.models import MedicalRegister, Customer, Patient
 
 
 class MedicalRegisterFilter(filters.FilterSet):
@@ -58,4 +58,25 @@ class CustomerFilter(filters.FilterSet):
 
     class Meta:
         model = Customer
+        fields = []
+
+
+class PatientFilter(filters.FilterSet):
+    """고객 검색 필터"""
+
+    name = filters.CharFilter(field_name="name", lookup_expr="icontains")
+    companion = filters.CharFilter(
+        field_name="companion__name", lookup_expr="icontains"
+    )
+
+    o = filters.OrderingFilter(
+        # tuple-mapping retains order
+        fields=(
+            ("name", "name"),
+            ("created_at", "created_at"),
+        )
+    )
+
+    class Meta:
+        model = Patient
         fields = []

@@ -2,7 +2,7 @@
 환자 API 문서화 관련 데이터
 """
 
-__all__ = ["PATIENT_API_URL_PARAM", "PATIENT_API_EXAMPLES"]
+__all__ = ["PATIENT_API_URL_PARAM", "PATIENT_API_SEARCH_QUERY", "PATIENT_API_EXAMPLES"]
 
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample, OpenApiParameter
@@ -20,6 +20,30 @@ PATIENT_API_URL_PARAM = [
             OpenApiExample(name="환자3", value=3),
         ],
     )
+]
+
+
+# 환자 검색 쿼리 파라미터
+PATIENT_API_SEARCH_QUERY = [
+    OpenApiParameter(
+        "name",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        description="이름 검색",
+    ),
+    OpenApiParameter(
+        "companion",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        description="보호자 이름 검색",
+    ),
+    OpenApiParameter(
+        "o",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        enum=["name", "created_at", "-name", "-created_at"],
+        description="정렬조건.",
+    ),
 ]
 
 # serialzier example

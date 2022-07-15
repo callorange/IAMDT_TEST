@@ -11,7 +11,7 @@ __all__ = [
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample, OpenApiParameter
 
-# 환자 url path kwargs
+# 고객 검색 url path kwargs
 CUSTOMER_API_URL_PARAM = [
     OpenApiParameter(
         "id",
