@@ -68,6 +68,6 @@ class PatientInfoSerializer(serializers.ModelSerializer):
         read_only_fields = ["id", "created_at", "updated_at"]
         validators = [
             UniqueTogetherValidator(
-                queryset=Patient.objects.all(), fields=["companion", "id"]
+                queryset=Patient.objects.all(), fields=["companion", "name"]
             )
         ]
