@@ -17,6 +17,7 @@ _read_example = [
             "first_name": "name2",
             "last_name": "doc",
             "role": "doctor",
+            "role_display": "수의사",
             "phone": "01012345678",
             "messenger": "kakaotalk",
             "messenger_id": "doc2",

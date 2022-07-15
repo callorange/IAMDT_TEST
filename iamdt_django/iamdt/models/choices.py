@@ -13,6 +13,42 @@ class MedicalStage(models.TextChoices):
     DISCHARGE = "discharge", "퇴원"
 
 
+# 진행 가능한 단계
+POSSIBLE_STAGES = {
+    # 접수 -> 진료, 퇴원
+    MedicalStage.REGISTER: [MedicalStage.REGISTER, MedicalStage.DISCHARGE],
+    # 진료 -> 진료, 진단, 처치, 상담
+    MedicalStage.EXAMINATION: [
+        MedicalStage.EXAMINATION,
+        MedicalStage.DIAGNOSYS,
+        MedicalStage.TREATMENT,
+        MedicalStage.COUNSELING,
+    ],
+    # 진단 -> 진료, 처치, 상담
+    MedicalStage.DIAGNOSYS: [
+        MedicalStage.EXAMINATION,
+        MedicalStage.TREATMENT,
+        MedicalStage.COUNSELING,
+    ],
+    # 처치 -> 진료, 진단, 상담
+    MedicalStage.TREATMENT: [
+        MedicalStage.EXAMINATION,
+        MedicalStage.DIAGNOSYS,
+        MedicalStage.COUNSELING,
+    ],
+    # 상담 -> 접수, 수납, 퇴원
+    MedicalStage.COUNSELING: [
+        MedicalStage.REGISTER,
+        MedicalStage.PAYMENT,
+        MedicalStage.DISCHARGE,
+    ],
+    # 수납 -> 퇴원
+    MedicalStage.PAYMENT: [MedicalStage.DISCHARGE],
+    # 퇴원 -> -
+    MedicalStage.DISCHARGE: [],
+}
+
+
 class MedicalStageStatus(models.TextChoices):
     """진료 단계 상태(대기/완료)"""
 
