@@ -10,16 +10,21 @@ from rest_framework import serializers
 
 from iamdt.models import MedicalService
 from iamdt.models.choices import MedicalStage, POSSIBLE_STAGES
+from iamdt_api.scheme.medical_service import service_api_examples
 from iamdt_api.serializers.staff import SimpleStaffField
 
 
-@extend_schema_serializer(component_name="MedicalServiceAdd", examples=[])
+@extend_schema_serializer(
+    component_name="MedicalServiceAdd", examples=service_api_examples["add"]
+)
 class MedicalServiceAddSerializer(serializers.ModelSerializer):
     """진료내역 등록용 시리얼라이저
 
     환자, 진료단계, 담당스태프 3개 정보만 입력받는다
     """
 
+    stage_display = serializers.CharField(source="get_stage_display", read_only=True)
+    status_display = serializers.CharField(source="get_status_display", read_only=True)
     staff = SimpleStaffField(many=True, queryset=get_user_model().objects.all())
 
     class Meta:
@@ -29,7 +34,9 @@ class MedicalServiceAddSerializer(serializers.ModelSerializer):
             "patient",
             "register",
             "stage",
+            "stage_display",
             "status",
+            "status_display",
             "creator",
             "staff",
             "created_at",
@@ -88,10 +95,14 @@ class MedicalServiceAddSerializer(serializers.ModelSerializer):
             )
 
 
-@extend_schema_serializer(component_name="MedicalServiceInfo", examples=[])
+@extend_schema_serializer(
+    component_name="MedicalServiceInfo", examples=service_api_examples["mod"]
+)
 class MedicalServiceInfoSerializer(serializers.ModelSerializer):
     """진료내역 정보 시리얼라이저"""
 
+    stage_display = serializers.CharField(source="get_stage_display", read_only=True)
+    status_display = serializers.CharField(source="get_status_display", read_only=True)
     staff = SimpleStaffField(many=True, queryset=get_user_model().objects.all())
 
     class Meta:
@@ -101,7 +112,9 @@ class MedicalServiceInfoSerializer(serializers.ModelSerializer):
             "patient",
             "register",
             "stage",
+            "stage_display",
             "status",
+            "status_display",
             "creator",
             "staff",
             "created_at",
