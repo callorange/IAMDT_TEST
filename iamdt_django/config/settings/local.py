@@ -198,6 +198,10 @@ SPECTACULAR_SETTINGS = {
         "EnumMedicalStage": "iamdt.models.choices.MedicalStage",
         "EnumMedicalStageStatus": "iamdt.models.choices.MedicalStageStatus",
     },
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "displayOperationId": True,
+    },
 }
 
 # django-silk
