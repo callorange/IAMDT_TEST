@@ -2,16 +2,56 @@
   {
     "model": "iamdt.MedicalStaff",
     "pk": 1,
-    "fields": {"detail": 2, "staff": 2,"created_at": "2022-07-13T10:28:31.680Z"}
+    "fields": {"detail": 1, "staff": 4,"created_at": "2022-07-13T10:28:31.680Z"}
   },
   {
     "model": "iamdt.MedicalStaff",
     "pk": 2,
-    "fields": {"detail": 3, "staff": 4,"created_at": "2022-07-13T10:28:31.680Z"}
+    "fields": {"detail": 2, "staff": 2,"created_at": "2022-07-13T10:28:31.680Z"}
   },
   {
     "model": "iamdt.MedicalStaff",
     "pk": 3,
+    "fields": {"detail": 3, "staff": 4,"created_at": "2022-07-13T10:28:31.680Z"}
+  },
+  {
+    "model": "iamdt.MedicalStaff",
+    "pk": 4,
+    "fields": {"detail": 4, "staff": 4,"created_at": "2022-07-13T10:28:31.680Z"}
+  },
+  {
+    "model": "iamdt.MedicalStaff",
+    "pk": 5,
+    "fields": {"detail": 5, "staff": 4,"created_at": "2022-07-13T10:28:31.680Z"}
+  },
+  {
+    "model": "iamdt.MedicalStaff",
+    "pk": 6,
     "fields": {"detail": 6, "staff": 2,"created_at": "2022-07-13T10:28:31.680Z"}
+  },
+  {
+    "model": "iamdt.MedicalStaff",
+    "pk": 7,
+    "fields": {"detail": 6, "staff": 3,"created_at": "2022-07-13T10:28:31.680Z"}
+  },
+  {
+    "model": "iamdt.MedicalStaff",
+    "pk": 8,
+    "fields": {"detail": 7, "staff": 4,"created_at": "2022-07-13T10:28:31.680Z"}
+  },
+  {
+    "model": "iamdt.MedicalStaff",
+    "pk": 9,
+    "fields": {"detail": 8, "staff": 4,"created_at": "2022-07-13T10:28:31.680Z"}
+  },
+  {
+    "model": "iamdt.MedicalStaff",
+    "pk": 10,
+    "fields": {"detail": 9, "staff": 4,"created_at": "2022-07-13T10:28:31.680Z"}
+  },
+  {
+    "model": "iamdt.MedicalStaff",
+    "pk": 11,
+    "fields": {"detail": 10, "staff": 4,"created_at": "2022-07-13T10:28:31.680Z"}
   }
 ]

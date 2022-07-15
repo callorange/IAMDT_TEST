@@ -3,9 +3,9 @@ __all__ = ["MedicalStageStatusChoicesTestCase", "MedicalDetailModelTestCase"]
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from iamdt.models import MedicalRegister, Patient
+from iamdt.models import Patient, MedicalRegister
 from iamdt.models.choices import MedicalStageStatus, MedicalStage
-from iamdt.models.medical_detail import MedicalDetail
+from iamdt.models.medical_service import MedicalService
 
 
 class MedicalStageChoicesTestCase(TestCase):
@@ -78,45 +78,44 @@ class MedicalDetailModelTestCase(TestCase):
         "customer.json",
         "patient.json",
         "medical_register.json",
-        "medical_detail.json",
+        "medical_service.json",
     ]
 
     def setUp(self) -> None:
-        self.last = MedicalDetail.objects.last()
+        self.last = MedicalService.objects.last()
+
+    def test_filter_patient(self) -> None:
+        """환자 진료 내역 필터링"""
+        patient = Patient.objects.get(id=1)
+        count = MedicalService.objects.filter(patient=patient).count()
+        self.assertEqual(6, count)
 
     def test_filter_register(self) -> None:
-        """접수등록 기준 필터링"""
-        register = MedicalRegister.objects.first()
-        self.assertEqual(4, MedicalDetail.objects.filter(register=register).count())
+        """환자 접수 단위 내역 필터링"""
+        register = MedicalRegister.objects.get(id=1)
+        count = MedicalService.objects.filter(register=register).count()
+        self.assertEqual(4, count)
 
     def test_filter_stage(self) -> None:
         """진료 단계 기준 필터링"""
         self.assertEqual(
-            1, MedicalDetail.objects.filter(stage=MedicalStage.DISCHARGE).count()
+            1, MedicalService.objects.filter(stage=MedicalStage.DISCHARGE).count()
         )
 
     def test_filter_status(self) -> None:
         """진료 단계별 상태 기준 필터링"""
         self.assertEqual(
-            1, MedicalDetail.objects.filter(status=MedicalStageStatus.WAIT).count()
+            1, MedicalService.objects.filter(status=MedicalStageStatus.WAIT).count()
         )
 
     def test_filter_stage_status(self) -> None:
         """진료 단계 + 상태 기준 필터링"""
         self.assertEqual(
             1,
-            MedicalDetail.objects.filter(
+            MedicalService.objects.filter(
                 stage=MedicalStage.EXAMINATION, status=MedicalStageStatus.WAIT
             ).count(),
         )
-
-    def test_filter_patient(self) -> None:
-        """환자 진료 내역 필터링"""
-        paitent = Patient.objects.get(id=1)
-        count = MedicalDetail.objects.filter(
-            register__in=paitent.registers.all()
-        ).count()
-        self.assertEqual(6, count)
 
     def test_valiation_register(self) -> None:
         """접수등록 검증"""

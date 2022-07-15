@@ -13,7 +13,7 @@ class LoginApiTestCase(APITestCase):
         "customer.json",
         "patient.json",
         "medical_register.json",
-        "medical_detail.json",
+        "medical_service.json",
         "medical_staff.json",
     ]
 

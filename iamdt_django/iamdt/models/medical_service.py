@@ -1,19 +1,25 @@
-__all__ = ["MedicalDetail", "MedicalStaff"]
+__all__ = ["MedicalService", "MedicalStaff"]
 
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from iamdt.models import MedicalRegister
+from iamdt.models import Patient, MedicalRegister
 from iamdt.models.choices import MedicalStage, MedicalStageStatus
 
 
-class MedicalDetail(models.Model):
+class MedicalService(models.Model):
     """진료 내역 모델"""
 
+    patient = models.ForeignKey(
+        Patient,
+        related_name="services",
+        verbose_name="진료내역",
+        on_delete=models.PROTECT,
+    )
     register = models.ForeignKey(
         MedicalRegister,
         related_name="details",
-        verbose_name="진료접수",
+        verbose_name="상세내역",
         on_delete=models.PROTECT,
     )
 
@@ -67,7 +73,7 @@ class MedicalStaff(models.Model):
     """
 
     detail = models.ForeignKey(
-        MedicalDetail,
+        MedicalService,
         verbose_name="진료단계",
         on_delete=models.PROTECT,
     )

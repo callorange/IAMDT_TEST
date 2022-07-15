@@ -67,7 +67,13 @@ export DJANGO_SECRET_PATH=path/local.json
 ### 기본 데이터 세팅 
 django `runserver`명령으로 로컬 기동시 기본 유저 데이터가 없으므로 초기 데이터 세팅이 필요합니다.
 ```shell
-proejct_root/iamdt_django> python manage.py init_data
+proejct_root/iamdt_django> python manage.py migrate # DB 마이그레이션
+proejct_root/iamdt_django> python manage.py loaddata user customer patient medical_register medical_service medical_staff
+```
+
+### Test
+```shell
+proejct_root/iamdt_django> python manage.py test
 ```
 
 ### 실행 
@@ -79,7 +85,3 @@ proejct_root/iamdt_django> python manage.py runserver 8080
 
 ### URL 접속
 
-### Test
-```shell
-proejct_root/iamdt_django> python manage.py test
-```

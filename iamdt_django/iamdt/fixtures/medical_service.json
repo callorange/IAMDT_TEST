@@ -1,0 +1,52 @@
+[
+{
+    "model": "iamdt.MedicalService",
+    "pk": 1,
+    "fields": {"patient": 1,"register": 1, "stage": "register","status": "complete","creator": 4,"created_at": "2022-07-13T10:28:31.680Z","updated_at": "2022-07-13T10:30:21.885Z"}
+},
+{
+    "model": "iamdt.MedicalService",
+    "pk": 2,
+    "fields": {"patient": 1,"register": 1, "stage": "examination","status": "complete","creator": 4,"created_at": "2022-07-13T10:28:31.680Z","updated_at": "2022-07-13T10:30:21.885Z"}
+},
+{
+    "model": "iamdt.MedicalService",
+    "pk": 3,
+    "fields": {"patient": 1,"register": 1, "stage": "payment","status": "complete","creator": 2,"created_at": "2022-07-13T10:28:31.680Z","updated_at": "2022-07-13T10:30:21.885Z"}
+},
+{
+    "model": "iamdt.MedicalService",
+    "pk": 4,
+    "fields": {"patient": 1,"register": 1, "stage": "discharge","status": "complete","creator": 4,"created_at": "2022-07-13T10:28:31.680Z","updated_at": "2022-07-13T10:30:21.885Z"}
+},
+{
+    "model": "iamdt.MedicalService",
+    "pk": 5,
+    "fields": {"patient": 1,"register": 2, "stage": "register","status": "complete","creator": 4,"created_at": "2022-07-13T10:28:31.680Z","updated_at": "2022-07-13T10:30:21.885Z"}
+},
+{
+    "model": "iamdt.MedicalService",
+    "pk": 6,
+    "fields": {"patient": 1,"register": 2, "stage": "examination","status": "wait","creator": 4,"created_at": "2022-07-13T10:28:31.680Z","updated_at": "2022-07-13T10:30:21.885Z"}
+},
+{
+    "model": "iamdt.MedicalService",
+    "pk": 7,
+    "fields": {"patient": 2,"register": 3, "stage": "register","status": "complete","creator": 4,"created_at": "2022-07-13T10:28:31.680Z","updated_at": "2022-07-13T10:30:21.885Z"}
+},
+{
+    "model": "iamdt.MedicalService",
+    "pk": 8,
+    "fields": {"patient": 3,"register": 4, "stage": "register","status": "complete","creator": 4,"created_at": "2022-07-13T10:28:31.680Z","updated_at": "2022-07-13T10:30:21.885Z"}
+},
+{
+    "model": "iamdt.MedicalService",
+    "pk": 9,
+    "fields": {"patient": 4,"register": 5, "stage": "register","status": "complete","creator": 4,"created_at": "2022-07-13T10:28:31.680Z","updated_at": "2022-07-13T10:30:21.885Z"}
+},
+{
+    "model": "iamdt.MedicalService",
+    "pk": 10,
+    "fields": {"patient": 5,"register": 6, "stage": "register","status": "complete","creator": 4,"created_at": "2022-07-13T10:28:31.680Z","updated_at": "2022-07-13T10:30:21.885Z"}
+}
+]

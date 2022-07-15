@@ -8,7 +8,7 @@ from iamdt.models import (
     Customer,
     Patient,
     MedicalRegister,
-    MedicalDetail,
+    MedicalService,
     MedicalStaff,
 )
 
@@ -67,9 +67,10 @@ class MedicalRegisterAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at", "updated_at")
 
 
-@admin.register(MedicalDetail)
-class MedicalDetailAdmin(admin.ModelAdmin):
+@admin.register(MedicalService)
+class MedicalServiceAdmin(admin.ModelAdmin):
     list_display = (
+        "patient",
         "register",
         "stage",
         "status",
