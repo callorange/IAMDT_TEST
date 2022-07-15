@@ -6,6 +6,8 @@ urlpatterns = [
     path("", include("iamdt_api.urls.auth")),
     # 스태프
     path("", include("iamdt_api.urls.staff")),
+    # 고객
+    path("", include("iamdt_api.urls.customer")),
     # Documentation: DRF Spectacular
     path("", include("iamdt_api.urls.doc")),
 ]
