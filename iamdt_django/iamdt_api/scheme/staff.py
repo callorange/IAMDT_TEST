@@ -27,7 +27,6 @@ STAFF_API_SEARCH_QUERY = [
         "phone",
         OpenApiTypes.STR,
         OpenApiParameter.QUERY,
-        enum=get_user_model().UserType,
         description="전화번호로 검색",
     ),
     OpenApiParameter(
@@ -39,6 +38,7 @@ STAFF_API_SEARCH_QUERY = [
     ),
 ]
 
+# serialzier example
 _read_example = [
     OpenApiExample(
         name="스태프 정보",

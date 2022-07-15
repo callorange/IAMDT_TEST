@@ -2,7 +2,11 @@
 고객 API 문서화 관련 데이터
 """
 
-__all__ = ["CUSTOMER_API_URL_PARAM", "CUSTOMER_API_EXAMPLES"]
+__all__ = [
+    "CUSTOMER_API_URL_PARAM",
+    "CUSTOMER_API_SEARCH_QUERY",
+    "CUSTOMER_API_EXAMPLES",
+]
 
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample, OpenApiParameter
@@ -20,6 +24,29 @@ CUSTOMER_API_URL_PARAM = [
             OpenApiExample(name="고객3", value=3),
         ],
     )
+]
+
+# 고객 검색 쿼리 파라미터
+CUSTOMER_API_SEARCH_QUERY = [
+    OpenApiParameter(
+        "name",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        description="이름 검색",
+    ),
+    OpenApiParameter(
+        "phone",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        description="전화번호로 검색",
+    ),
+    OpenApiParameter(
+        "o",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        enum=["name", "phone", "created_at", "-name", "-phone", "-created_at"],
+        description="정렬조건.",
+    ),
 ]
 
 # serialzier example

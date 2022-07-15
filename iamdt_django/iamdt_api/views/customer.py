@@ -8,9 +8,16 @@ from django.db.models import ProtectedError
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework import generics, permissions, exceptions
 
+from django_filters import rest_framework as filters
+
 from iamdt.models import Customer
+from iamdt_api.filter_set import CustomerFilter
 from iamdt_api.scheme import PAGINATION_QUERY_SCHEME
-from iamdt_api.scheme.customer import CUSTOMER_API_URL_PARAM, CUSTOMER_API_EXAMPLES
+from iamdt_api.scheme.customer import (
+    CUSTOMER_API_URL_PARAM,
+    CUSTOMER_API_EXAMPLES,
+    CUSTOMER_API_SEARCH_QUERY,
+)
 from iamdt_api.serializers import CustomerInfoSerializer
 
 
@@ -21,6 +28,9 @@ class CustomerList(generics.ListCreateAPIView):
     queryset = Customer.objects.order_by("-id")
     serializer_class = CustomerInfoSerializer
 
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = CustomerFilter
+
     @extend_schema(
         tags=["고객정보"],
         summary="고객정보 검색",
@@ -29,7 +39,7 @@ class CustomerList(generics.ListCreateAPIView):
             200: CustomerInfoSerializer,
             403: OpenApiResponse(description="인증 없는 액세스"),
         },
-        parameters=PAGINATION_QUERY_SCHEME,
+        parameters=PAGINATION_QUERY_SCHEME + CUSTOMER_API_SEARCH_QUERY,
         examples=CUSTOMER_API_EXAMPLES["read"],
     )
     def get(self, request, *args, **kwargs):
