@@ -3,7 +3,7 @@ from django.urls import path
 
 from ..views import customer
 
-app_name = "staff"
+app_name = "customer"
 urlpatterns = [
     # 인증
     path("customers", customer.CustomerList.as_view(), name="list"),

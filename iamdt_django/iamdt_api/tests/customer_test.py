@@ -80,7 +80,14 @@ class CustomerSerialiezerTestCase(TestCase):
 class StaffApiTestCase(APITestCase):
     """고객정보 api 테스트"""
 
-    fixtures = ["user.json", "customer.json"]
+    fixtures = [
+        "user.json",
+        "customer.json",
+        "patient.json",
+        "medical_register.json",
+        "medical_detail.json",
+        "medical_staff.json",
+    ]
 
     def setUp(self) -> None:
         # {"name": "고객1", "phone": "01011112222"}
@@ -149,9 +156,9 @@ class StaffApiTestCase(APITestCase):
 
     def test_api_read(self) -> None:
         """read api (get)"""
-        response = self.client.get(self.staff_info_url)
+        response = self.client.get(self.urls["read"])
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["username"], self.doc1_data["username"])
+        self.assertEqual(response.data["name"], "고객1")
 
     def test_api_update(self) -> None:
         """update api (patch)"""

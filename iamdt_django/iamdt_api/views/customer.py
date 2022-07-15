@@ -118,15 +118,15 @@ url_kwargs = OpenApiParameter(
 )
 class CustomerDetail(generics.RetrieveUpdateDestroyAPIView):
 
-    permission_classes = [permissions.IsAdminUser, perms.ObjOwnerOrReadOnly]
+    permission_classes = [permissions.IsAdminUser]
     queryset = Customer.objects.all()
     serializer_class = CustomerInfoSerializer
 
     lookup_url_kwarg = "id"
 
-    def delete(self, request, *args, **kwargs):
+    def perform_destroy(self, instance):
         try:
-            return super().delete(request, *args, **kwargs)
+            super().perform_destroy(instance)
         except ProtectedError as e:
             raise exceptions.NotAcceptable(
                 detail="Unable to delete for data protection", code="protected_data"
