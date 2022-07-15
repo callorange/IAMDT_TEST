@@ -5,11 +5,12 @@ MedicalService Serializer 모듈
 __all__ = ["MedicalServiceAddSerializer", "MedicalServiceInfoSerializer"]
 
 from django.contrib.auth import get_user_model
+from django.db import transaction
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
 
-from iamdt.models import MedicalService
-from iamdt.models.choices import MedicalStage, POSSIBLE_STAGES
+from iamdt.models import MedicalService, MedicalRegister
+from iamdt.models.choices import MedicalStage, POSSIBLE_STAGES, MedicalStageStatus
 from iamdt_api.scheme.medical_service import service_api_examples
 from iamdt_api.serializers.staff import SimpleStaffField
 
@@ -62,7 +63,6 @@ class MedicalServiceAddSerializer(serializers.ModelSerializer):
         # 기존 진료에 이어서 진행하는가?
         if self._register_id:
             self._validate_possible_stage(data)  # 이행가능한 단계인지?
-
         return data
 
     def _get_last_service(self, data):
@@ -88,11 +88,29 @@ class MedicalServiceAddSerializer(serializers.ModelSerializer):
         """기존 단계에서 이어갈 수 있는 단계 인가?"""
         possible = POSSIBLE_STAGES[self._last_service.stage]
         if data["stage"] not in possible:
-
             raise serializers.ValidationError(
                 f"'{MedicalStage(self._last_service.stage).label}'에서 "
                 f"'{MedicalStage(data['stage']).label}'로 진행 할 수 없습니다"
             )
+
+    def save(self, **kwargs):
+        obj = super().save(**kwargs)
+        return obj
+
+    def create(self, validated_data):
+        """신규생성"""
+        with transaction.atomic():
+            validated_data["register"] = self._get_register_obj()
+            new_obj = super().create(validated_data)
+            self._last_service.status = MedicalStageStatus.COMPLETE
+            self._last_service.save()
+        return new_obj
+
+    def _get_register_obj(self) -> MedicalRegister:
+        """진료접수번호 객체를 리턴한다."""
+        if self._register_id:
+            return self._last_service.register
+        return MedicalRegister.objects.create(patient=self._last_service.patient)
 
 
 @extend_schema_serializer(
@@ -131,3 +149,8 @@ class MedicalServiceInfoSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
+    def validate(self, data):
+        if self.instance.status == MedicalStageStatus.COMPLETE:
+            raise serializers.ValidationError("완료 처리된 단계는 변경 불가능합니다.")
+        return data

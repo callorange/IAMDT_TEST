@@ -75,12 +75,12 @@ class MedicalStaff(models.Model):
     detail = models.ForeignKey(
         MedicalService,
         verbose_name="진료단계",
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
     )
     staff = models.ForeignKey(
         get_user_model(),
         verbose_name="담당자",
-        on_delete=models.PROTECT,
+        on_delete=models.RESTRICT,
     )
 
     created_at = models.DateTimeField("등록일", auto_now_add=True)

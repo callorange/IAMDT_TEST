@@ -16,7 +16,7 @@ class MedicalStage(models.TextChoices):
 # 진행 가능한 단계
 POSSIBLE_STAGES = {
     # 접수 -> 진료, 퇴원
-    MedicalStage.REGISTER: [MedicalStage.REGISTER, MedicalStage.DISCHARGE],
+    MedicalStage.REGISTER: [MedicalStage.EXAMINATION, MedicalStage.DISCHARGE],
     # 진료 -> 진료, 진단, 처치, 상담
     MedicalStage.EXAMINATION: [
         MedicalStage.EXAMINATION,

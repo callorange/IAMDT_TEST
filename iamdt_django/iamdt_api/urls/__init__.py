@@ -10,6 +10,8 @@ urlpatterns = [
     path("", include("iamdt_api.urls.customer")),
     # 환자
     path("", include("iamdt_api.urls.patient")),
+    # 진료내역
+    path("", include("iamdt_api.urls.service")),
     # Documentation: DRF Spectacular
     path("", include("iamdt_api.urls.doc")),
 ]
