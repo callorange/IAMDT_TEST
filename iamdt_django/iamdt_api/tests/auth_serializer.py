@@ -20,7 +20,5 @@ class LoginSerializerTestCase(TestCase):
 
     def test_serializer_validation(self) -> None:
         """데이터가 제대로 지정됬을때"""
-        serializer = LoginSerializer(
-            data={"username": "doctor1", "password": "doc12345678"}
-        )
+        serializer = LoginSerializer(data={"username": "doctor1", "password": "1234"})
         self.assertTrue(serializer.is_valid())

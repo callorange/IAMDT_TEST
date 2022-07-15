@@ -66,7 +66,7 @@ class UserModelTestCase(TestCase):
         """생성된 정보 확인"""
         user_info = {
             "username": "doctor1",
-            "password": "doc12345678",
+            "password": "1234",
             "role": "doctor",
             "is_staff": True,
             "phone": "01012345678",

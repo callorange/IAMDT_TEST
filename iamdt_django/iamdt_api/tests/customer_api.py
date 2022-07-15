@@ -37,7 +37,7 @@ class CustomerApiTestCase(APITestCase):
         self.new_customer = {"name": "신규고객", "phone": "01098765432"}
 
         # clinet login
-        login_user = {"username": "doctor1", "password": "doc12345678"}
+        login_user = {"username": "doctor1", "password": "1234"}
         self.client.login(**login_user)
 
     def test_url(self) -> None:

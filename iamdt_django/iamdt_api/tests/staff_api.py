@@ -27,10 +27,10 @@ class StaffApiTestCase(APITestCase):
         self.staff_list_url = reverse("api:staff:list")
         self.staff_info_url = reverse("api:staff:detail", kwargs={"id": 2})
 
-        self.doc1_data = {"username": "doctor1", "password": "doc12345678"}
+        self.doc1_data = {"username": "doctor1", "password": "1234"}
         self.new_doc_data = {
             "username": "doctor2",
-            "password": "doc12345678",
+            "password": "1234",
             "first_name": "name222222",
             "last_name": "doc",
             "role": "doctor",

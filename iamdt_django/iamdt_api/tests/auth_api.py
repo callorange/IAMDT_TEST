@@ -34,7 +34,7 @@ class LoginApiTestCase(APITestCase):
         """로그인 URL로 로그인이 가능한지"""
         response = self.client.post(
             self.login_url,
-            data={"username": "doctor1", "password": "doc12345678"},
+            data={"username": "doctor1", "password": "1234"},
             format="json",
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -51,6 +51,6 @@ class LoginApiTestCase(APITestCase):
     def test_logout_url(self) -> None:
         """로그아웃 URL로 로그아웃 되는지"""
         # 로그인 처리를 먼저 한다.
-        self.client.login(**{"username": "doctor1", "password": "doc12345678"})
+        self.client.login(**{"username": "doctor1", "password": "1234"})
         response = self.client.get(self.logout_url)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
