@@ -7,7 +7,10 @@ from iamdt_api.serializers.medical_service import MedicalServiceInfoSerializer
 
 
 class MedicalServiceSerializerTestCase(TestCase):
-    """로그인을 위한 시리얼라이저 테스트"""
+    """진료내역 시리얼라이저 테스트
+
+    접수번호는 등록시 자동으로 할당 될것이니 테스트 하지 않는다
+    """
 
     def setUp(self) -> None:
         self.data = {
@@ -19,24 +22,24 @@ class MedicalServiceSerializerTestCase(TestCase):
         }
 
     def test_validation_patient_id(self) -> None:
-        """진료접수 지정 테스트"""
+        """환자번호 지정 테스트"""
         # text
-        self.data["register"] = "1"
+        self.data["patient"] = "1"
         serializer = MedicalServiceInfoSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
 
         # null
-        self.data["register"] = None
+        self.data["patient"] = None
         serializer = MedicalServiceInfoSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
 
         # register not found
-        self.data["register"] = 9999
+        self.data["patient"] = 9999
         serializer = MedicalServiceInfoSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
 
         # missing
-        self.data.pop("register")
+        self.data.pop("patient")
         serializer = MedicalServiceInfoSerializer(data=self.data)
         self.assertFalse(serializer.is_valid())
 

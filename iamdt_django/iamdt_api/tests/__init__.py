@@ -11,3 +11,5 @@ from .patient_serializer import *
 from .patient_api import *
 
 from .medical_service_serializer import *
+
+from .medical_register_serializer import *
