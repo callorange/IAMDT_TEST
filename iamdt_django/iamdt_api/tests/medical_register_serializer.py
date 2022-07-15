@@ -14,6 +14,15 @@ class MedicalRegisterSerializerTestCase(TestCase):
     응답내용만 제대로 오는지 확인한다
     """
 
+    fixtures = [
+        "user.json",
+        "customer.json",
+        "patient.json",
+        "medical_register.json",
+        "medical_service.json",
+        "medical_staff.json",
+    ]
+
     def setUp(self) -> None:
         self.register = MedicalRegister.objects.first()
 
