@@ -101,7 +101,9 @@ class MedicalServiceApiTestCase(APITestCase):
     def test_api_update(self) -> None:
         """update api (patch)"""
         response = self.client.patch(
-            self.urls["update"], data={"staff": [2]}, format="json"
+            reverse("api:service:detail", kwargs={"id": 6}),
+            data={"staff": [2]},
+            format="json",
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 

@@ -2,23 +2,52 @@
 고객 API 문서화 관련 데이터
 """
 
-__all__ = ["customer_api_url_param", "customer_api_examples"]
+__all__ = [
+    "CUSTOMER_API_URL_PARAM",
+    "CUSTOMER_API_SEARCH_QUERY",
+    "CUSTOMER_API_EXAMPLES",
+]
 
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample, OpenApiParameter
 
-# 환자 url path kwargs
-customer_api_url_param = OpenApiParameter(
-    "id",
-    OpenApiTypes.INT,
-    OpenApiParameter.PATH,
-    description="조회할 고객의 고유번호",
-    examples=[
-        OpenApiExample(name="고객1", value=1),
-        OpenApiExample(name="고객2", value=2),
-        OpenApiExample(name="고객3", value=3),
-    ],
-)
+# 고객 검색 url path kwargs
+CUSTOMER_API_URL_PARAM = [
+    OpenApiParameter(
+        "id",
+        OpenApiTypes.INT,
+        OpenApiParameter.PATH,
+        description="조회할 고객의 고유번호",
+        examples=[
+            OpenApiExample(name="고객1", value=1),
+            OpenApiExample(name="고객2", value=2),
+            OpenApiExample(name="고객3", value=3),
+        ],
+    )
+]
+
+# 고객 검색 쿼리 파라미터
+CUSTOMER_API_SEARCH_QUERY = [
+    OpenApiParameter(
+        "name",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        description="이름 검색",
+    ),
+    OpenApiParameter(
+        "phone",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        description="전화번호로 검색",
+    ),
+    OpenApiParameter(
+        "o",
+        OpenApiTypes.STR,
+        OpenApiParameter.QUERY,
+        enum=["name", "phone", "created_at", "-name", "-phone", "-created_at"],
+        description="정렬조건.",
+    ),
+]
 
 # serialzier example
 _read_example = [
@@ -62,7 +91,7 @@ _mod_example = [
         request_only=True,
     )
 ]
-customer_api_examples = {
+CUSTOMER_API_EXAMPLES = {
     "read": _read_example,
     "add": _add_example + _read_example,
     "mod": _mod_example + _read_example,
