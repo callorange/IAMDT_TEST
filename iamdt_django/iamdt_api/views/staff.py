@@ -13,7 +13,7 @@ from iamdt.models import MedicalRegister, MedicalService
 from iamdt_api import permissions as perms
 from iamdt_api.scheme import PAGINATION_QUERY_SCHEME
 from iamdt_api.scheme.medical_service import SERVICE_API_EXAMPLES
-from iamdt_api.scheme.staff import staff_api_examples
+from iamdt_api.scheme.staff import STAFF_API_EXAMPLES
 from iamdt_api.serializers import StaffInfoSerializer, StaffAddSerializer
 from iamdt_api.serializers.medical_register import MedicalRegisterInfoSerializer
 from iamdt_api.serializers.medical_service import MedicalServiceInfoSerializer
@@ -42,7 +42,7 @@ class StaffList(generics.ListCreateAPIView):
             403: OpenApiResponse(description="인증 없는 액세스"),
         },
         parameters=PAGINATION_QUERY_SCHEME,
-        examples=staff_api_examples["read"],
+        examples=STAFF_API_EXAMPLES["read"],
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
@@ -57,7 +57,7 @@ class StaffList(generics.ListCreateAPIView):
             400: OpenApiResponse(description="잘못된 요청"),
             403: OpenApiResponse(description="인증 없는 액세스"),
         },
-        examples=staff_api_examples["add"],
+        examples=STAFF_API_EXAMPLES["add"],
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
@@ -87,7 +87,7 @@ class StaffDetail(generics.RetrieveUpdateDestroyAPIView):
             403: OpenApiResponse(description="인증 없는 액세스"),
             404: OpenApiResponse(description="찾을 수 없는 데이터"),
         },
-        examples=staff_api_examples["read"],
+        examples=STAFF_API_EXAMPLES["read"],
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
@@ -102,7 +102,7 @@ class StaffDetail(generics.RetrieveUpdateDestroyAPIView):
             403: OpenApiResponse(description="인증 없는 액세스"),
             404: OpenApiResponse(description="찾을 수 없는 데이터"),
         },
-        examples=staff_api_examples["mod"],
+        examples=STAFF_API_EXAMPLES["mod"],
     )
     def put(self, request, *args, **kwargs):
         return super().put(request, *args, **kwargs)
@@ -117,7 +117,7 @@ class StaffDetail(generics.RetrieveUpdateDestroyAPIView):
             403: OpenApiResponse(description="인증 없는 액세스"),
             404: OpenApiResponse(description="찾을 수 없는 데이터"),
         },
-        examples=staff_api_examples["mod"],
+        examples=STAFF_API_EXAMPLES["mod"],
     )
     def patch(self, request, *args, **kwargs):
         return super().patch(request, *args, **kwargs)

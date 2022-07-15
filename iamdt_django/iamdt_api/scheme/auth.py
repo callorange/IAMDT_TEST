@@ -2,7 +2,7 @@
 인증 API 문서화 관련 데이터
 """
 
-__all__ = ["auth_api_examples"]
+__all__ = ["AUTH_API_EXAMPLES"]
 
 from drf_spectacular.utils import OpenApiExample
 
@@ -25,7 +25,7 @@ _add_example = [
 ]
 _mod_example = []
 
-auth_api_examples = {
+AUTH_API_EXAMPLES = {
     "read": _read_example,
     "add": _add_example + _read_example,
     "mod": _mod_example + _read_example,

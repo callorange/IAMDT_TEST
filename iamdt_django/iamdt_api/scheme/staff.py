@@ -2,7 +2,7 @@
 스태프 API 문서화 관련 데이터
 """
 
-__all__ = ["staff_api_examples"]
+__all__ = ["STAFF_API_EXAMPLES"]
 
 from drf_spectacular.utils import OpenApiExample
 
@@ -83,7 +83,7 @@ _mod_example = [
     ),
 ]
 
-staff_api_examples = {
+STAFF_API_EXAMPLES = {
     "read": _read_example,
     "add": _add_example + _read_example,
     "mod": _mod_example + _read_example,

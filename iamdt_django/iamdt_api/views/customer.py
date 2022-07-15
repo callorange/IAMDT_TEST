@@ -10,7 +10,7 @@ from rest_framework import generics, permissions, exceptions
 
 from iamdt.models import Customer
 from iamdt_api.scheme import PAGINATION_QUERY_SCHEME
-from iamdt_api.scheme.customer import customer_api_url_param, customer_api_examples
+from iamdt_api.scheme.customer import CUSTOMER_API_URL_PARAM, CUSTOMER_API_EXAMPLES
 from iamdt_api.serializers import CustomerInfoSerializer
 
 
@@ -30,7 +30,7 @@ class CustomerList(generics.ListCreateAPIView):
             403: OpenApiResponse(description="인증 없는 액세스"),
         },
         parameters=PAGINATION_QUERY_SCHEME,
-        examples=customer_api_examples["read"],
+        examples=CUSTOMER_API_EXAMPLES["read"],
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
@@ -45,7 +45,7 @@ class CustomerList(generics.ListCreateAPIView):
             400: OpenApiResponse(description="잘못된 요청"),
             403: OpenApiResponse(description="인증 없는 액세스"),
         },
-        examples=customer_api_examples["add"],
+        examples=CUSTOMER_API_EXAMPLES["add"],
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
@@ -60,7 +60,7 @@ class CustomerDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_url_kwarg = "id"
 
     @extend_schema(
-        parameters=[customer_api_url_param],
+        parameters=CUSTOMER_API_URL_PARAM,
         tags=["고객정보"],
         summary="고객정보 조회",
         description="지정된 고객의 정보를 조회합니다",
@@ -69,13 +69,13 @@ class CustomerDetail(generics.RetrieveUpdateDestroyAPIView):
             403: OpenApiResponse(description="인증 없는 액세스"),
             404: OpenApiResponse(description="찾을 수 없는 데이터"),
         },
-        examples=customer_api_examples["read"],
+        examples=CUSTOMER_API_EXAMPLES["read"],
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
 
     @extend_schema(
-        parameters=[customer_api_url_param],
+        parameters=CUSTOMER_API_URL_PARAM,
         tags=["고객정보"],
         summary="고객정보 정보수정(put)",
         description="지정된 고객의 정보를 수정합니다",
@@ -85,13 +85,13 @@ class CustomerDetail(generics.RetrieveUpdateDestroyAPIView):
             403: OpenApiResponse(description="인증 없는 액세스"),
             404: OpenApiResponse(description="찾을 수 없는 데이터"),
         },
-        examples=customer_api_examples["mod"],
+        examples=CUSTOMER_API_EXAMPLES["mod"],
     )
     def put(self, request, *args, **kwargs):
         return super().put(request, *args, **kwargs)
 
     @extend_schema(
-        parameters=[customer_api_url_param],
+        parameters=CUSTOMER_API_URL_PARAM,
         tags=["고객정보"],
         summary="고객정보 정보수정(patch)",
         description="지정된 고객의 정보를 수정합니다",
@@ -101,13 +101,13 @@ class CustomerDetail(generics.RetrieveUpdateDestroyAPIView):
             403: OpenApiResponse(description="인증 없는 액세스"),
             404: OpenApiResponse(description="찾을 수 없는 데이터"),
         },
-        examples=customer_api_examples["mod"],
+        examples=CUSTOMER_API_EXAMPLES["mod"],
     )
     def patch(self, request, *args, **kwargs):
         return super().patch(request, *args, **kwargs)
 
     @extend_schema(
-        parameters=[customer_api_url_param],
+        parameters=CUSTOMER_API_URL_PARAM,
         tags=["고객정보"],
         summary="고객정보 삭제",
         description="지정된 고객정보룰 삭제합니다.(해당 고객의 접수내역등이 있다면 오류가 발생합니다.)",

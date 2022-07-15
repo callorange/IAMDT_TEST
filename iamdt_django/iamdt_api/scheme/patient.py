@@ -2,23 +2,25 @@
 환자 API 문서화 관련 데이터
 """
 
-__all__ = ["patient_api_url_param", "patient_api_examples"]
+__all__ = ["PATIENT_API_URL_PARAM", "PATIENT_API_EXAMPLES"]
 
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiExample, OpenApiParameter
 
 # 환자 url path kwargs
-patient_api_url_param = OpenApiParameter(
-    "id",
-    OpenApiTypes.INT,
-    OpenApiParameter.PATH,
-    description="조회할 환자 고유번호",
-    examples=[
-        OpenApiExample(name="환자1", value=1),
-        OpenApiExample(name="환자2", value=2),
-        OpenApiExample(name="환자3", value=3),
-    ],
-)
+PATIENT_API_URL_PARAM = [
+    OpenApiParameter(
+        "id",
+        OpenApiTypes.INT,
+        OpenApiParameter.PATH,
+        description="조회할 환자 고유번호",
+        examples=[
+            OpenApiExample(name="환자1", value=1),
+            OpenApiExample(name="환자2", value=2),
+            OpenApiExample(name="환자3", value=3),
+        ],
+    )
+]
 
 # serialzier example
 _read_example = [
@@ -88,7 +90,7 @@ _mod_example = [
         response_only=True,
     ),
 ]
-patient_api_examples = {
+PATIENT_API_EXAMPLES = {
     "read": _read_example,
     "add": _add_example + _read_example,
     "mod": _mod_example + _read_example,

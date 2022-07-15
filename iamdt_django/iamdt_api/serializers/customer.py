@@ -9,12 +9,12 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
 from iamdt.models import Customer
-from iamdt_api.scheme.customer import customer_api_examples
+from iamdt_api.scheme.customer import CUSTOMER_API_EXAMPLES
 
 
 @extend_schema_serializer(
     component_name="CustomerInfo",
-    examples=customer_api_examples["all"],
+    examples=CUSTOMER_API_EXAMPLES["all"],
 )
 class CustomerInfoSerializer(serializers.ModelSerializer):
     """고객정보 시리얼라이저"""

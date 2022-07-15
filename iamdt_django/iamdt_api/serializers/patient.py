@@ -9,11 +9,11 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
 from iamdt.models import Patient
-from iamdt_api.scheme.patient import patient_api_examples
+from iamdt_api.scheme.patient import PATIENT_API_EXAMPLES
 
 
 @extend_schema_serializer(
-    component_name="PatientInfo", examples=patient_api_examples["all"]
+    component_name="PatientInfo", examples=PATIENT_API_EXAMPLES["all"]
 )
 class PatientInfoSerializer(serializers.ModelSerializer):
     """환자정보 시리얼라이저"""

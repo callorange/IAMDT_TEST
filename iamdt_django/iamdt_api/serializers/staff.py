@@ -18,10 +18,10 @@ from drf_spectacular.utils import (
 )
 from rest_framework import serializers
 
-from iamdt_api.scheme.staff import staff_api_examples
+from iamdt_api.scheme.staff import STAFF_API_EXAMPLES
 
 
-@extend_schema_serializer(component_name="StaffAdd", examples=staff_api_examples["add"])
+@extend_schema_serializer(component_name="StaffAdd", examples=STAFF_API_EXAMPLES["add"])
 class StaffAddSerializer(serializers.ModelSerializer):
     """스태프 등록을 위한 시리얼라이저
 
@@ -60,7 +60,7 @@ class StaffAddSerializer(serializers.ModelSerializer):
 
 
 @extend_schema_serializer(
-    component_name="StaffInfo", examples=staff_api_examples["mod"]
+    component_name="StaffInfo", examples=STAFF_API_EXAMPLES["mod"]
 )
 class StaffInfoSerializer(serializers.ModelSerializer):
     """스태프 정보 시리얼라이저"""

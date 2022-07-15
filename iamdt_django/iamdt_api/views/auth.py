@@ -10,7 +10,7 @@ from rest_framework import generics, permissions, exceptions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from iamdt_api.scheme.auth import auth_api_examples
+from iamdt_api.scheme.auth import AUTH_API_EXAMPLES
 from iamdt_api.serializers import LoginSerializer, StaffInfoSerializer
 
 
@@ -27,7 +27,7 @@ class Login(APIView):
             200: StaffInfoSerializer,
             400: OpenApiResponse(description="Bad request"),
         },
-        examples=auth_api_examples["add"],
+        examples=AUTH_API_EXAMPLES["add"],
     )
     def post(self, request, *args, **kwargs):
         """테스트용이어서 Session을 이용하도록 처리함"""
