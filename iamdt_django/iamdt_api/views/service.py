@@ -40,7 +40,7 @@ class MedicalServiceList(generics.ListCreateAPIView):
     def get_queryset(self):
         if self.request.method == "POST":
             return MedicalService.objects.order_by("-id")
-        return super().get_queryset()
+        return super().get_queryset().prefetch_related("details", "details__staff")
 
     def get_serializer_class(self):
         """요청 메소드에 따라 시리얼라이저 반환"""
