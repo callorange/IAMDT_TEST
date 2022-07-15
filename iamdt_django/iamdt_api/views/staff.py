@@ -5,7 +5,7 @@ Staff API View
 __all__ = ["StaffList", "StaffDetail"]
 
 from django.contrib.auth import get_user_model
-from django.db.models import ProtectedError, Subquery, Max
+from django.db.models import ProtectedError, Subquery
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework import generics, permissions, exceptions
 
@@ -158,15 +158,11 @@ class StaffSchedule(generics.ListAPIView):
             super()
             .get_queryset()
             .filter(
-                id__in=Subquery(
-                    MedicalService.objects.filter(
-                        id__in=Subquery(
-                            MedicalService.staff.through.objects.filter(
-                                staff=self.kwargs["id"]
-                            ).values("detail")
-                        )
-                    ).values("register")
-                )
+                id__in=MedicalService.objects.filter(
+                    id__in=MedicalService.staff.through.objects.filter(
+                        staff=self.kwargs["id"]
+                    ).values("detail")
+                ).values("register")
             )
         )
         return queryset

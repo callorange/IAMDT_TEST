@@ -5,18 +5,29 @@ MedicalService Api View
 __all__ = ["MedicalServiceList", "MedicalServiceDetail"]
 
 from django.db.models import ProtectedError
-from drf_spectacular.utils import extend_schema, OpenApiResponse
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiResponse, OpenApiParameter
 from rest_framework import generics, permissions, exceptions
+
+from django_filters import rest_framework as filters
 
 from iamdt.models import MedicalService, MedicalRegister
 from iamdt.models.choices import MedicalStageStatus
 from iamdt_api.scheme import PAGINATION_QUERY_SCHEME
-from iamdt_api.scheme.medical_service import service_api_examples, service_api_url_param
+from iamdt_api.scheme.medical_service import service_api_examples, SERVICE_API_URL_PARAM
 from iamdt_api.serializers.medical_register import MedicalRegisterInfoSerializer
 from iamdt_api.serializers.medical_service import (
     MedicalServiceInfoSerializer,
     MedicalServiceAddSerializer,
 )
+
+
+class MedicalRegisterFilter(filters.FilterSet):
+    patient = filters.CharFilter(field_name="patient__name", lookup_expr="icontains")
+
+    class Meta:
+        model = MedicalRegister
+        exclude = ["patient", "created_at", "updated_at"]
 
 
 class MedicalServiceList(generics.ListCreateAPIView):
@@ -25,6 +36,9 @@ class MedicalServiceList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAdminUser]  # is_staff 만
     queryset = MedicalRegister.objects.order_by("-id")
     serializer_class = MedicalRegisterInfoSerializer
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = MedicalRegisterFilter
 
     def get_queryset(self):
         if self.request.method == "POST":
@@ -45,7 +59,15 @@ class MedicalServiceList(generics.ListCreateAPIView):
             200: MedicalServiceInfoSerializer,
             403: OpenApiResponse(description="인증 없는 액세스"),
         },
-        parameters=PAGINATION_QUERY_SCHEME,
+        parameters=PAGINATION_QUERY_SCHEME
+        + [
+            OpenApiParameter(
+                "patient",
+                OpenApiTypes.STR,
+                OpenApiParameter.QUERY,
+                description="환자이름으로 검색",
+            )
+        ],
         examples=service_api_examples["read"],
     )
     def get(self, request, *args, **kwargs):
@@ -80,7 +102,7 @@ class MedicalServiceDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_url_kwarg = "id"
 
     @extend_schema(
-        parameters=[service_api_url_param],
+        parameters=SERVICE_API_URL_PARAM,
         tags=["진료내역"],
         summary="진료내역 조회",
         description="진료내역의 정보를 조회합니다",
@@ -95,7 +117,7 @@ class MedicalServiceDetail(generics.RetrieveUpdateDestroyAPIView):
         return super().get(request, *args, **kwargs)
 
     @extend_schema(
-        parameters=[service_api_url_param],
+        parameters=SERVICE_API_URL_PARAM,
         tags=["진료내역"],
         summary="진료내역 수정(put)",
         description="진료내역을 수정합니다. 현재 상태, 담당 스태프만 수정 가능합니다.",
@@ -111,7 +133,7 @@ class MedicalServiceDetail(generics.RetrieveUpdateDestroyAPIView):
         return super().put(request, *args, **kwargs)
 
     @extend_schema(
-        parameters=[service_api_url_param],
+        parameters=SERVICE_API_URL_PARAM,
         tags=["진료내역"],
         summary="진료내역 수정(patch)",
         description="진료내역을 수정합니다. 현재 상태, 담당 스태프만 수정 가능합니다.",
@@ -127,7 +149,7 @@ class MedicalServiceDetail(generics.RetrieveUpdateDestroyAPIView):
         return super().patch(request, *args, **kwargs)
 
     @extend_schema(
-        parameters=[service_api_url_param],
+        parameters=SERVICE_API_URL_PARAM,
         tags=["진료내역"],
         summary="진료내역 삭제",
         description="지정된 진료내역을 삭제합니다.(진료내역이 완료상태라면 오류가 발생합니다.)",

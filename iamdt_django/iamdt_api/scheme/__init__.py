@@ -26,9 +26,9 @@ PAGINATION_QUERY_SCHEME = [
         OpenApiParameter.QUERY,
         description="한페이지당 레코드 최대 갯수",
         examples=[
-            OpenApiExample(name="최대 1개", value=1),
-            OpenApiExample(name="최대 3개", value=3),
+            OpenApiExample(name="최대 10개", value=10),
             OpenApiExample(name="최대 5개", value=5),
+            OpenApiExample(name="최대 1개", value=1),
         ],
     ),
 ]
