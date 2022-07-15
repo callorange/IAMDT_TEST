@@ -211,3 +211,39 @@ SILKY_AUTHENTICATION = True  # User must login
 SILKY_AUTHORISATION = True  # User must have permissions
 SILKY_INTERCEPT_PERCENT = 100
 SILKY_MAX_RECORDED_REQUESTS = 20
+
+# Logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+        "simple2": {"format": "%(asctime)s [%(levelname)s] %(message)s"},
+        "standard": {"format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s"},
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple2",
+        },
+        "notification_file": {
+            "level": "INFO",
+            "encoding": "utf-8",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR / "logs/notification.history",
+            "maxBytes": 1024 * 1024 * 5,
+            "backupCount": 5,
+            "formatter": "standard",
+        },
+    },
+    "loggers": {
+        "iamdt_util.notification": {
+            "handlers": ["console", "notification_file"],
+            "level": "INFO",
+        }
+    },
+}

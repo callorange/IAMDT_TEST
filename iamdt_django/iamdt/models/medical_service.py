@@ -1,10 +1,13 @@
-__all__ = ["MedicalService", "MedicalStaff"]
+__all__ = ["MedicalService", "MedicalStaff", "medical_staff_changed"]
 
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models.signals import m2m_changed
+from django.dispatch import receiver
 
 from iamdt.models import Patient, MedicalRegister
 from iamdt.models.choices import MedicalStage, MedicalStageStatus
+from iamdt_util.notification import medical_staff_change_signal
 
 
 class MedicalService(models.Model):
@@ -92,3 +95,8 @@ class MedicalStaff(models.Model):
 
     def __str__(self) -> str:
         return f"{self.staff}/{self.detail}"
+
+
+@receiver(m2m_changed, sender=MedicalService.staff.through)
+def medical_staff_changed(sender, **kwargs):
+    medical_staff_change_signal(kwargs)

@@ -1,0 +1,5 @@
+2022-07-16 05:03:12,675 [INFO] iamdt_util.notification: nurse1님 고객1(01011112222)-환자1 의 진료2번 / 진단(대기)의 담당자에 추가 되셨습니다
+2022-07-16 05:04:34,611 [INFO] iamdt_util.notification: name1 employee님 고객1(01011112222)-환자1 의 진료2번 / 진단(대기)의 담당자에 추가 되셨습니다
+2022-07-16 05:04:34,612 [INFO] iamdt_util.notification: name1 dev님 고객1(01011112222)-환자1 의 진료2번 / 진단(대기)의 담당자에 추가 되셨습니다
+2022-07-16 05:14:07,480 [INFO] iamdt_util.notification: employee name1 직원 님고객1(01011112222)-환자1 의 진료2번 / 진단(대기)의 담당자에 제외 되셨습니다
+2022-07-16 05:14:07,480 [INFO] iamdt_util.notification: dev name1 개발자 님고객1(01011112222)-환자1 의 진료2번 / 진단(대기)의 담당자에 제외 되셨습니다

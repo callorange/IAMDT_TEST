@@ -27,4 +27,4 @@ class Patient(models.Model):
         ordering = ["id"]
 
     def __str__(self) -> str:
-        return f"{self.companion} / {self.name}"
+        return f"{self.companion}-{self.name}"
