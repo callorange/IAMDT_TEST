@@ -13,13 +13,13 @@ class MedicalService(models.Model):
     patient = models.ForeignKey(
         Patient,
         related_name="services",
-        verbose_name="진료내역",
+        verbose_name="환자",
         on_delete=models.PROTECT,
     )
     register = models.ForeignKey(
         MedicalRegister,
         related_name="details",
-        verbose_name="상세내역",
+        verbose_name="접수번호",
         on_delete=models.PROTECT,
     )
 
@@ -55,8 +55,8 @@ class MedicalService(models.Model):
     updated_at = models.DateTimeField("수정일", auto_now=True)
 
     class Meta:
-        verbose_name = "진료 내역"
-        verbose_name_plural = "진료 내역"
+        verbose_name = "진료내역"
+        verbose_name_plural = "진료내역 리스트"
 
     def __str__(self) -> str:
         return (
@@ -86,8 +86,8 @@ class MedicalStaff(models.Model):
     created_at = models.DateTimeField("등록일", auto_now_add=True)
 
     class Meta:
-        verbose_name = "진료단계별 담당자"
-        verbose_name_plural = "진료단계별 담당자"
+        verbose_name = "진료내역별 담당자"
+        verbose_name_plural = "진료내역별 담당자 리스트"
         ordering = ["id"]
 
     def __str__(self) -> str:

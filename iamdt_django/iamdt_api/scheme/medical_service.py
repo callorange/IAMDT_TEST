@@ -76,23 +76,23 @@ _add_example = [
 _mod_example = [
     OpenApiExample(
         name="진료내역수정1",
-        summary="진료내역 수정",
-        description="진료내역을 수정하는 예시 입니다. ",
-        value={"status": "complete", "staff": [1, 2, 3]},
-        request_only=True,
-    ),
-    OpenApiExample(
-        name="진료내역수정2",
         summary="진료내역정보 수정(스태프)",
         description="담당 스태프를 변경합니다. 담당스태프 pk의 list를 보내야 합니다.",
         value={"staff": [2, 3, 4]},
         request_only=True,
     ),
     OpenApiExample(
-        name="진료내역수정3",
+        name="진료내역수정2",
         summary="진료내역정보 수정(상태변경)",
         description="진료내역의 상태를 수정합니다. (다음단계 이행시 자동으로 완료 처리 됩니다. ;ㅁ;)",
         value={"status": "complete"},
+        request_only=True,
+    ),
+    OpenApiExample(
+        name="진료내역수정3",
+        summary="진료내역 수정(실패)",
+        description="진료단계 상태와 담당 스태프는 동시에 수정 할 수 없습니다.",
+        value={"status": "complete", "staff": [1, 2, 3]},
         request_only=True,
     ),
     OpenApiExample(

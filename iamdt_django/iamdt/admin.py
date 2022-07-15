@@ -67,6 +67,11 @@ class MedicalRegisterAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at", "updated_at")
 
 
+class StaffInlineAdmin(admin.StackedInline):
+    model = MedicalService.staff.through
+    extra = 0
+
+
 @admin.register(MedicalService)
 class MedicalServiceAdmin(admin.ModelAdmin):
     list_display = (
@@ -78,7 +83,17 @@ class MedicalServiceAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
-    filter_horizontal = ("staff",)
+    fields = (
+        "patient",
+        "register",
+        "stage",
+        "status",
+        "creator",
+        "created_at",
+        "updated_at",
+    )
+
+    inlines = (StaffInlineAdmin,)
     readonly_fields = ("created_at", "updated_at")
 
 

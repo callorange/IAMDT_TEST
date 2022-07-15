@@ -151,6 +151,16 @@ class MedicalServiceInfoSerializer(serializers.ModelSerializer):
         ]
 
     def validate(self, data):
+        """검증"""
+        self._validate_complete()  # 완료처리된 진료내역이면 에러
+        self._validate_status_change(data)  # 상태변경과 담당자 변경은 동시에 안된다
+        return data
+
+    def _validate_complete(self) -> None:
+        """완료처리된거면 오류"""
         if self.instance.status == MedicalStageStatus.COMPLETE:
             raise serializers.ValidationError("완료 처리된 단계는 변경 불가능합니다.")
-        return data
+
+    def _validate_status_change(self, data) -> None:
+        if data.get("status", False) and data.get("staff", False):
+            raise serializers.ValidationError("상태 변경과 담당자 변경은 동시에 불가능 합니다.")

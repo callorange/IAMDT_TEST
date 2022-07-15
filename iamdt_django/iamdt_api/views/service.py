@@ -148,7 +148,7 @@ class MedicalServiceDetail(generics.RetrieveUpdateDestroyAPIView):
         완료된 내역이나 외래키 참조가 있다면 삭제 할 수 없다.
         """
         if instance.status == MedicalStageStatus.COMPLETE:
-            raise exceptions.NotAcceptable(detail="완료된 진료내역", code="protected_data")
+            raise exceptions.NotAcceptable(detail="완료 처리된 내역", code="protected_data")
 
         try:
             super().perform_destroy(instance)

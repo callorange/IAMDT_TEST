@@ -19,12 +19,12 @@ class MedicalRegister(models.Model):
     updated_at = models.DateTimeField("수정일", auto_now=True)
 
     class Meta:
-        verbose_name = "진료 접수"
-        verbose_name_plural = "진료 접수 리스트"
+        verbose_name = "진료번호"
+        verbose_name_plural = "진료번호 리스트"
         ordering = ["id"]
 
     def __str__(self) -> str:
-        return f"{self.patient} / 진료{self.id}"
+        return f"{self.patient} 의 진료{self.id}번"
 
     @property
     def current_stage(self) -> str:
