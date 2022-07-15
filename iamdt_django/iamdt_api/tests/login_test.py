@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
-from iamdt_api.serializers.login import LoginSerializer
+from iamdt_api.serializers.auth import LoginSerializer
 
 
 class LoginSerializerTestCase(TestCase):
