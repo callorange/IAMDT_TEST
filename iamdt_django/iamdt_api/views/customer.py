@@ -2,7 +2,7 @@
 Customer Api View
 """
 
-__all__ = ["CustomerList"]
+__all__ = ["CustomerList", "CustomerDetail"]
 
 from django.db.models import ProtectedError
 from drf_spectacular.types import OpenApiTypes
@@ -18,7 +18,6 @@ from rest_framework import generics, permissions, exceptions
 from iamdt.models import Customer
 from iamdt_api.scheme import PAGINATION_QUERY_SCHEME
 from iamdt_api.serializers import CustomerInfoSerializer
-from iamdt_api import permissions as perms
 
 
 @extend_schema_view(
