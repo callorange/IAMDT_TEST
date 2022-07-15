@@ -4,6 +4,7 @@ __all__ = ["CustomerSerialiezerTestCase"]
 from django.test import TestCase
 
 from iamdt.models import Customer
+from iamdt_api.serializers import CustomerInfoSerializer
 
 
 class CustomerSerialiezerTestCase(TestCase):
@@ -20,29 +21,30 @@ class CustomerSerialiezerTestCase(TestCase):
     def test_serializer(self) -> None:
         """고객 객체가 주어졌을때"""
         serializer = CustomerInfoSerializer(self.customer_obj)
-        self.assertEqual("고객1", serializer.data["username"])
+        self.assertEqual("고객1", serializer.data["name"])
 
         serializer = CustomerInfoSerializer(
             self.customer_obj, data={"phone": "01099999999"}, partial=True
         )
-        self.assertEqual("01099999999", serializer.data["phone"])
+        serializer.is_valid()
+        self.assertEqual("01099999999", serializer.validated_data["phone"])
 
     def test_validation_name(self) -> None:
         """이름 validation"""
         # blank
         self.customer_dict["name"] = ""
         serializer = CustomerInfoSerializer(data=self.customer_dict)
-        self.assertTrue(serializer.is_valid())
+        self.assertFalse(serializer.is_valid())
 
         # null
         self.customer_dict["name"] = None
         serializer = CustomerInfoSerializer(data=self.customer_dict)
-        self.assertTrue(serializer.is_valid())
+        self.assertFalse(serializer.is_valid())
 
         # missing
         self.customer_dict.pop("name")
         serializer = CustomerInfoSerializer(data=self.customer_dict)
-        self.assertTrue(serializer.is_valid())
+        self.assertFalse(serializer.is_valid())
 
     def test_validation_phone(self) -> None:
         """연락처 validation"""
