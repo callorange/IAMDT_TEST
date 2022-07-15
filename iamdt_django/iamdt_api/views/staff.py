@@ -5,15 +5,18 @@ Staff API View
 __all__ = ["StaffList", "StaffDetail"]
 
 from django.contrib.auth import get_user_model
-from django.db.models import ProtectedError
+from django.db.models import ProtectedError, Subquery, Max
 from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework import generics, permissions, exceptions
 
+from iamdt.models import MedicalRegister, MedicalService
 from iamdt_api import permissions as perms
 from iamdt_api.scheme import PAGINATION_QUERY_SCHEME
+from iamdt_api.scheme.medical_service import service_api_examples
 from iamdt_api.scheme.staff import staff_api_examples
 from iamdt_api.serializers import StaffInfoSerializer, StaffAddSerializer
-
+from iamdt_api.serializers.medical_register import MedicalRegisterInfoSerializer
+from iamdt_api.serializers.medical_service import MedicalServiceInfoSerializer
 
 user_model = get_user_model()
 
@@ -140,3 +143,44 @@ class StaffDetail(generics.RetrieveUpdateDestroyAPIView):
             )
         except Exception as e:
             raise e
+
+
+class StaffSchedule(generics.ListAPIView):
+    """스태프가 담당중인 의료내역"""
+
+    permission_classes = [permissions.IsAdminUser]  # is_staff 만
+    queryset = MedicalRegister.objects.order_by("-id")
+    serializer_class = MedicalRegisterInfoSerializer
+
+    def get_queryset(self):
+        """url kwargs에 따라 진료접수 쿼리셋 반환"""
+        queryset = (
+            super()
+            .get_queryset()
+            .filter(
+                id__in=Subquery(
+                    MedicalService.objects.filter(
+                        id__in=Subquery(
+                            MedicalService.staff.through.objects.filter(
+                                staff=self.kwargs["id"]
+                            ).values("detail")
+                        )
+                    ).values("register")
+                )
+            )
+        )
+        return queryset
+
+    @extend_schema(
+        tags=["병원 스태프"],
+        summary="스태프의 진료내역 검색",
+        description="지정된 스태프의 진료내역 리스트를 검색합니다",
+        responses={
+            200: MedicalServiceInfoSerializer,
+            403: OpenApiResponse(description="인증 없는 액세스"),
+        },
+        parameters=PAGINATION_QUERY_SCHEME,
+        examples=service_api_examples["read"],
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)

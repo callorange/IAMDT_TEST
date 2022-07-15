@@ -21,8 +21,6 @@ class MedicalStaffModelTestCase(TestCase):
     ]
 
     def setUp(self) -> None:
-        # 접수/퇴원은 스태프가 별도 지정되지 않는다.
-
         self.details = MedicalService.objects.filter(
             id__in=Subquery(
                 MedicalService.objects.values("patient__id")
