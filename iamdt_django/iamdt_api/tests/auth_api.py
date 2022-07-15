@@ -1,32 +1,8 @@
-__all__ = ["LoginSerializerTestCase", "LoginApiTestCase"]
+__all__ = ["LoginApiTestCase"]
 
-from django.test import TestCase
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
-
-from iamdt_api.serializers.login import LoginSerializer
-
-
-class LoginSerializerTestCase(TestCase):
-    """로그인을 위한 시리얼라이저 테스트"""
-
-    def test_serializer_validation_username(self) -> None:
-        """계정명 검증 테스트"""
-        serializer = LoginSerializer(data={"password": "doctor1"})
-        self.assertFalse(serializer.is_valid())
-
-    def test_serializer_validation_password(self) -> None:
-        """비밀번호가 검증 테스트"""
-        serializer = LoginSerializer(data={"username": "doctor1"})
-        self.assertFalse(serializer.is_valid())
-
-    def test_serializer_validation(self) -> None:
-        """데이터가 제대로 지정됬을때"""
-        serializer = LoginSerializer(
-            data={"username": "doctor1", "password": "doc12345678"}
-        )
-        self.assertTrue(serializer.is_valid())
 
 
 class LoginApiTestCase(APITestCase):

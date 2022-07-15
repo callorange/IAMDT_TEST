@@ -1,6 +1,11 @@
-from .login_test import *
-from .staff_test import *
-from .customer_test import *
+from .auth_serializer import *
+from .auth_api import *
+
+from .staff_serializer import *
+from .staff_api import *
+
+from .customer_serializer import *
+from .customer_api import *
 
 from .patient_serializer import *
 from .patient_api import *
