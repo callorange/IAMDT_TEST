@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Max, Subquery
 from django.test import TestCase
 
-from iamdt.models import MedicalDetail
+from iamdt.models import MedicalService
 from iamdt.models.choices import MedicalStageStatus
 
 
@@ -16,16 +16,16 @@ class MedicalStaffModelTestCase(TestCase):
         "customer.json",
         "patient.json",
         "medical_register.json",
-        "medical_detail.json",
+        "medical_service.json",
         "medical_staff.json",
     ]
 
     def setUp(self) -> None:
         # 접수/퇴원은 스태프가 별도 지정되지 않는다.
 
-        self.details = MedicalDetail.objects.filter(
+        self.details = MedicalService.objects.filter(
             id__in=Subquery(
-                MedicalDetail.objects.values("register__patient__id")
+                MedicalService.objects.values("patient__id")
                 .annotate(max_id=Max("id"))
                 .values("max_id")
             ),

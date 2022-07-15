@@ -1,14 +1,14 @@
-__all__ = ["PatientApiTestCase"]
+__all__ = ["MedicalServiceApiTestCase"]
 
 
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase, APIClient
 
-from iamdt.models import Patient
+from iamdt.models import MedicalService
 
 
-class PatientApiTestCase(APITestCase):
+class MedicalServiceApiTestCase(APITestCase):
     """고객정보 api 테스트"""
 
     fixtures = [
@@ -21,20 +21,27 @@ class PatientApiTestCase(APITestCase):
     ]
 
     def setUp(self) -> None:
-        # {"name": "환자1", "companion": 1}
-        self.patient = Patient.objects.get(id=1)
+        # {"patient": 1, "register": 1, "stage": "register",
+        #  "status": "complete", "creator": 4,
+        #  "created_at": "2022-07-13T10:28:31.680Z",
+        #  "updated_at": "2022-07-13T10:30:21.885Z"}
+        self.patient = MedicalService.objects.get(id=1)
 
         # url_info
         self.urls = {
-            "list": "/api/patients",
-            "create": "/api/patients",
-            "read": "/api/patients/1",
-            "update": "/api/patients/1",
-            "delete": "/api/patients/1",
+            "list": "/api/services",
+            "create": "/api/services",
+            "read": "/api/services/1",
+            "update": "/api/services/1",
+            "delete": "/api/services/1",
         }
 
         # new patient
-        self.new_patient = {"name": "신규환자", "companion": 1}
+        self.new_patient = {
+            "patient": 5,
+            "stage": "examination",
+            "staff": [2, 3],
+        }
 
         # clinet login
         login_user = {"username": "doctor1", "password": "doc12345678"}
@@ -42,16 +49,16 @@ class PatientApiTestCase(APITestCase):
 
     def test_url(self) -> None:
         """url 예상대로 생성되었는가"""
-        self.assertURLEqual(self.urls["list"], reverse("api:patient:list"))
-        self.assertURLEqual(self.urls["create"], reverse("api:patient:list"))
+        self.assertURLEqual(self.urls["list"], reverse("api:service:list"))
+        self.assertURLEqual(self.urls["create"], reverse("api:service:list"))
         self.assertURLEqual(
-            self.urls["read"], reverse("api:patient:detail", kwargs={"id": 1})
+            self.urls["read"], reverse("api:service:detail", kwargs={"id": 1})
         )
         self.assertURLEqual(
-            self.urls["update"], reverse("api:patient:detail", kwargs={"id": 1})
+            self.urls["update"], reverse("api:service:detail", kwargs={"id": 1})
         )
         self.assertURLEqual(
-            self.urls["delete"], reverse("api:patient:detail", kwargs={"id": 1})
+            self.urls["delete"], reverse("api:service:detail", kwargs={"id": 1})
         )
 
     def test_url_option(self) -> None:
@@ -83,25 +90,25 @@ class PatientApiTestCase(APITestCase):
             self.urls["list"], data=self.new_patient, format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data["name"], self.new_patient["name"])
+        self.assertEqual(response.data["stage"], self.new_patient["stage"])
 
     def test_api_read(self) -> None:
         """read api (get)"""
         response = self.client.get(self.urls["read"])
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data["name"], "환자1")
+        self.assertEqual(response.data["status"], "complete")
 
     def test_api_update(self) -> None:
         """update api (patch)"""
         response = self.client.patch(
-            self.urls["update"], data={"name": "이름수정"}, format="json"
+            self.urls["update"], data={"staff": [2]}, format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_api_update_fail(self) -> None:
         """update api (patch). phone validation fail"""
         response = self.client.patch(
-            self.urls["update"], data={"name": ""}, format="json"
+            self.urls["update"], data={"staff": ""}, format="json"
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 

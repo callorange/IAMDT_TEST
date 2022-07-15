@@ -8,7 +8,7 @@ from iamdt.models import (
     Customer,
     Patient,
     MedicalRegister,
-    MedicalDetail,
+    MedicalService,
     MedicalStaff,
 )
 
@@ -67,9 +67,15 @@ class MedicalRegisterAdmin(admin.ModelAdmin):
     readonly_fields = ("created_at", "updated_at")
 
 
-@admin.register(MedicalDetail)
-class MedicalDetailAdmin(admin.ModelAdmin):
+class StaffInlineAdmin(admin.StackedInline):
+    model = MedicalService.staff.through
+    extra = 0
+
+
+@admin.register(MedicalService)
+class MedicalServiceAdmin(admin.ModelAdmin):
     list_display = (
+        "patient",
         "register",
         "stage",
         "status",
@@ -77,7 +83,17 @@ class MedicalDetailAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
-    filter_horizontal = ("staff",)
+    fields = (
+        "patient",
+        "register",
+        "stage",
+        "status",
+        "creator",
+        "created_at",
+        "updated_at",
+    )
+
+    inlines = (StaffInlineAdmin,)
     readonly_fields = ("created_at", "updated_at")
 
 

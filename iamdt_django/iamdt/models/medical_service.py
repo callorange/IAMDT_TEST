@@ -1,19 +1,25 @@
-__all__ = ["MedicalDetail", "MedicalStaff"]
+__all__ = ["MedicalService", "MedicalStaff"]
 
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from iamdt.models import MedicalRegister
+from iamdt.models import Patient, MedicalRegister
 from iamdt.models.choices import MedicalStage, MedicalStageStatus
 
 
-class MedicalDetail(models.Model):
+class MedicalService(models.Model):
     """진료 내역 모델"""
 
+    patient = models.ForeignKey(
+        Patient,
+        related_name="services",
+        verbose_name="환자",
+        on_delete=models.PROTECT,
+    )
     register = models.ForeignKey(
         MedicalRegister,
         related_name="details",
-        verbose_name="진료접수",
+        verbose_name="접수번호",
         on_delete=models.PROTECT,
     )
 
@@ -49,8 +55,8 @@ class MedicalDetail(models.Model):
     updated_at = models.DateTimeField("수정일", auto_now=True)
 
     class Meta:
-        verbose_name = "진료 내역"
-        verbose_name_plural = "진료 내역"
+        verbose_name = "진료내역"
+        verbose_name_plural = "진료내역 리스트"
 
     def __str__(self) -> str:
         return (
@@ -67,21 +73,21 @@ class MedicalStaff(models.Model):
     """
 
     detail = models.ForeignKey(
-        MedicalDetail,
+        MedicalService,
         verbose_name="진료단계",
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
     )
     staff = models.ForeignKey(
         get_user_model(),
         verbose_name="담당자",
-        on_delete=models.PROTECT,
+        on_delete=models.RESTRICT,
     )
 
     created_at = models.DateTimeField("등록일", auto_now_add=True)
 
     class Meta:
-        verbose_name = "진료단계별 담당자"
-        verbose_name_plural = "진료단계별 담당자"
+        verbose_name = "진료내역별 담당자"
+        verbose_name_plural = "진료내역별 담당자 리스트"
         ordering = ["id"]
 
     def __str__(self) -> str:
