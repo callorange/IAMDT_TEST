@@ -41,7 +41,6 @@ from iamdt.models import Customer
                 "updated_at": "2022-07-13T10:30:21.885Z",
             },
             response_only=True,
-            external_value="asdfasdflkjqwl;ekfjql;wekf",
         ),
         OpenApiExample(
             name="고객 정보 추가/수정",

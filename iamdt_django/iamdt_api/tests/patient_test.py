@@ -35,7 +35,7 @@ class PatientSerialiezerTestCase(TestCase):
             self.patient_obj, data={"name": "환자111"}, partial=True
         )
         serializer.is_valid()
-        self.assertEqual("환자111", serializer.validated_data["환자111"])
+        self.assertEqual("환자111", serializer.validated_data["name"])
 
     def test_validation_name(self) -> None:
         """이름 validation"""
