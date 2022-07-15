@@ -12,7 +12,7 @@ from rest_framework import generics, permissions, exceptions
 from iamdt.models import MedicalRegister, MedicalService
 from iamdt_api import permissions as perms
 from iamdt_api.scheme import PAGINATION_QUERY_SCHEME
-from iamdt_api.scheme.medical_service import service_api_examples
+from iamdt_api.scheme.medical_service import SERVICE_API_EXAMPLES
 from iamdt_api.scheme.staff import staff_api_examples
 from iamdt_api.serializers import StaffInfoSerializer, StaffAddSerializer
 from iamdt_api.serializers.medical_register import MedicalRegisterInfoSerializer
@@ -176,7 +176,7 @@ class StaffSchedule(generics.ListAPIView):
             403: OpenApiResponse(description="인증 없는 액세스"),
         },
         parameters=PAGINATION_QUERY_SCHEME,
-        examples=service_api_examples["read"],
+        examples=SERVICE_API_EXAMPLES["read"],
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)

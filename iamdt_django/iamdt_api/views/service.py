@@ -13,21 +13,18 @@ from django_filters import rest_framework as filters
 
 from iamdt.models import MedicalService, MedicalRegister
 from iamdt.models.choices import MedicalStageStatus
+from iamdt_api.filter_set import MedicalRegisterFilter
 from iamdt_api.scheme import PAGINATION_QUERY_SCHEME
-from iamdt_api.scheme.medical_service import service_api_examples, SERVICE_API_URL_PARAM
+from iamdt_api.scheme.medical_service import (
+    SERVICE_API_EXAMPLES,
+    SERVICE_API_URL_PARAM,
+    SERVICE_API_SEARCH_QUERY,
+)
 from iamdt_api.serializers.medical_register import MedicalRegisterInfoSerializer
 from iamdt_api.serializers.medical_service import (
     MedicalServiceInfoSerializer,
     MedicalServiceAddSerializer,
 )
-
-
-class MedicalRegisterFilter(filters.FilterSet):
-    patient = filters.CharFilter(field_name="patient__name", lookup_expr="icontains")
-
-    class Meta:
-        model = MedicalRegister
-        exclude = ["patient", "created_at", "updated_at"]
 
 
 class MedicalServiceList(generics.ListCreateAPIView):
@@ -59,16 +56,8 @@ class MedicalServiceList(generics.ListCreateAPIView):
             200: MedicalServiceInfoSerializer,
             403: OpenApiResponse(description="인증 없는 액세스"),
         },
-        parameters=PAGINATION_QUERY_SCHEME
-        + [
-            OpenApiParameter(
-                "patient",
-                OpenApiTypes.STR,
-                OpenApiParameter.QUERY,
-                description="환자이름으로 검색",
-            )
-        ],
-        examples=service_api_examples["read"],
+        parameters=PAGINATION_QUERY_SCHEME + SERVICE_API_SEARCH_QUERY,
+        examples=SERVICE_API_EXAMPLES["read"],
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
@@ -83,7 +72,7 @@ class MedicalServiceList(generics.ListCreateAPIView):
             400: OpenApiResponse(description="잘못된 요청"),
             403: OpenApiResponse(description="인증 없는 액세스"),
         },
-        examples=service_api_examples["add"],
+        examples=SERVICE_API_EXAMPLES["add"],
     )
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
@@ -111,7 +100,7 @@ class MedicalServiceDetail(generics.RetrieveUpdateDestroyAPIView):
             403: OpenApiResponse(description="인증 없는 액세스"),
             404: OpenApiResponse(description="찾을 수 없는 데이터"),
         },
-        examples=service_api_examples["read"],
+        examples=SERVICE_API_EXAMPLES["read"],
     )
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
@@ -127,7 +116,7 @@ class MedicalServiceDetail(generics.RetrieveUpdateDestroyAPIView):
             403: OpenApiResponse(description="인증 없는 액세스"),
             404: OpenApiResponse(description="찾을 수 없는 데이터"),
         },
-        examples=service_api_examples["mod"],
+        examples=SERVICE_API_EXAMPLES["mod"],
     )
     def put(self, request, *args, **kwargs):
         return super().put(request, *args, **kwargs)
@@ -143,7 +132,7 @@ class MedicalServiceDetail(generics.RetrieveUpdateDestroyAPIView):
             403: OpenApiResponse(description="인증 없는 액세스"),
             404: OpenApiResponse(description="찾을 수 없는 데이터"),
         },
-        examples=service_api_examples["mod"],
+        examples=SERVICE_API_EXAMPLES["mod"],
     )
     def patch(self, request, *args, **kwargs):
         return super().patch(request, *args, **kwargs)

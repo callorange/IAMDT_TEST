@@ -5,16 +5,16 @@ Patient Api View
 __all__ = ["PatientList", "PatientDetail"]
 
 from django.db.models import ProtectedError
-from drf_spectacular.utils import (
-    extend_schema,
-    OpenApiResponse,
-)
+from drf_spectacular.utils import extend_schema, OpenApiResponse
 from rest_framework import generics, permissions, exceptions
 
-from iamdt.models import Patient
+from iamdt.models import Patient, MedicalRegister
 from iamdt_api.scheme import PAGINATION_QUERY_SCHEME
+from iamdt_api.scheme.medical_service import SERVICE_API_EXAMPLES
 from iamdt_api.serializers import PatientInfoSerializer
 from iamdt_api.scheme.patient import patient_api_examples, patient_api_url_param
+from iamdt_api.serializers.medical_register import MedicalRegisterInfoSerializer
+from iamdt_api.serializers.medical_service import MedicalServiceInfoSerializer
 
 
 class PatientList(generics.ListCreateAPIView):
@@ -131,3 +131,28 @@ class PatientDetail(generics.RetrieveUpdateDestroyAPIView):
             )
         except Exception as e:
             raise e
+
+
+class PatientService(generics.ListAPIView):
+    """ "환자 진료내역 검색"""
+
+    permission_classes = [permissions.IsAdminUser]
+    queryset = MedicalRegister.objects.order_by("-id")
+    serializer_class = MedicalRegisterInfoSerializer
+
+    def get_queryset(self):
+        return super().get_queryset().filter(patient=self.kwargs["id"])
+
+    @extend_schema(
+        tags=["환자"],
+        summary="환자 진료내역 검색",
+        description="환자의 진료내역 리스트를 검색합니다",
+        responses={
+            200: MedicalServiceInfoSerializer,
+            403: OpenApiResponse(description="인증 없는 액세스"),
+        },
+        parameters=PAGINATION_QUERY_SCHEME,
+        examples=SERVICE_API_EXAMPLES["read"],
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)

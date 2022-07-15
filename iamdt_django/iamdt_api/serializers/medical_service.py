@@ -11,12 +11,12 @@ from rest_framework import serializers
 
 from iamdt.models import MedicalService, MedicalRegister
 from iamdt.models.choices import MedicalStage, POSSIBLE_STAGES, MedicalStageStatus
-from iamdt_api.scheme.medical_service import service_api_examples
+from iamdt_api.scheme.medical_service import SERVICE_API_EXAMPLES
 from iamdt_api.serializers.staff import SimpleStaffField
 
 
 @extend_schema_serializer(
-    component_name="MedicalServiceAdd", examples=service_api_examples["add"]
+    component_name="MedicalServiceAdd", examples=SERVICE_API_EXAMPLES["add"]
 )
 class MedicalServiceAddSerializer(serializers.ModelSerializer):
     """진료내역 등록용 시리얼라이저
@@ -114,7 +114,7 @@ class MedicalServiceAddSerializer(serializers.ModelSerializer):
 
 
 @extend_schema_serializer(
-    component_name="MedicalServiceInfo", examples=service_api_examples["mod"]
+    component_name="MedicalServiceInfo", examples=SERVICE_API_EXAMPLES["mod"]
 )
 class MedicalServiceInfoSerializer(serializers.ModelSerializer):
     """진료내역 정보 시리얼라이저"""
