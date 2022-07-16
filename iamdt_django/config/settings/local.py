@@ -45,6 +45,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+AUTH_USER_MODEL = "iamdt.User"
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -167,13 +169,18 @@ REST_FRAMEWORK = {
         "rest_framework.renderers.JSONRenderer",
         "rest_framework.renderers.BrowsableAPIRenderer",
     ],
+    "DEFAULT_PARSER_CLASSES": [
+        "rest_framework.parsers.JSONParser",
+        # 'rest_framework.parsers.FormParser',
+        # 'rest_framework.parsers.MultiPartParser'
+    ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
-        # 'rest_framework.permissions.IsAdminUser',
         # 'rest_framework.permissions.AllowAny',
+        # "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.IsAdminUser",
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "DEFAULT_PAGINATION_CLASS": "iamdt_api.pagination.ApiPageNumberPagination",
     "PAGE_SIZE": 10,
 }
 
@@ -184,6 +191,17 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "0.1.0",
     "SERVE_INCLUDE_SCHEMA": False,
     # OTHER SETTINGS
+    "ENUM_NAME_OVERRIDES": {
+        # 'CurrencyEnum': 'import_path.CurrencyContainer.choices',
+        "EnumUserType": "iamdt.models.User.UserType",
+        "EnumMessengerType": "iamdt.models.User.MessengerType",
+        "EnumMedicalStage": "iamdt.models.choices.MedicalStage",
+        "EnumMedicalStageStatus": "iamdt.models.choices.MedicalStageStatus",
+    },
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "displayOperationId": True,
+    },
 }
 
 # django-silk
@@ -193,3 +211,39 @@ SILKY_AUTHENTICATION = True  # User must login
 SILKY_AUTHORISATION = True  # User must have permissions
 SILKY_INTERCEPT_PERCENT = 100
 SILKY_MAX_RECORDED_REQUESTS = 20
+
+# Logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+        "simple2": {"format": "%(asctime)s [%(levelname)s] %(message)s"},
+        "standard": {"format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s"},
+    },
+    "handlers": {
+        "console": {
+            "level": "INFO",
+            "class": "logging.StreamHandler",
+            "formatter": "simple2",
+        },
+        "notification_file": {
+            "level": "INFO",
+            "encoding": "utf-8",
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": BASE_DIR / "logs/notification.history",
+            "maxBytes": 1024 * 1024 * 5,
+            "backupCount": 5,
+            "formatter": "standard",
+        },
+    },
+    "loggers": {
+        "iamdt_util.notification": {
+            "handlers": ["console", "notification_file"],
+            "level": "INFO",
+        }
+    },
+}
