@@ -17,10 +17,14 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 
+from iamdt import views
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     # API
     path("api/", include("iamdt_api.urls")),
+    # index
+    path("", views.index, name="index"),
 ]
 if settings.DEBUG:
     urlpatterns += [path("silk/", include("silk.urls", namespace="silk"))]

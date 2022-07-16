@@ -26,7 +26,7 @@
 		"model": "iamdt.user",
 		"pk": 2,
 		"fields": {
-			"password": "pbkdf2_sha256$320000$Qp7nLyqA9LOgS9tzwSHFRS$lnSv1GVMx9q1mSVnu1/Ziz91qnJeHkClO4pOgr+NMu0=",
+			"password": "pbkdf2_sha256$320000$M5Jj2ohyursy9sY5z9lDHN$97i/Zx+TPHVBFzmBBx3Ex/ryeYfwbJEuPB3LwrJpBrM=",
 			"last_login": null,
 			"is_superuser": false,
 			"username": "doctor1",
@@ -50,7 +50,7 @@
 		"model": "iamdt.user",
 		"pk": 3,
 		"fields": {
-			"password": "pbkdf2_sha256$320000$Qp7nLyqA9LOgS9tzwSHFRS$lnSv1GVMx9q1mSVnu1/Ziz91qnJeHkClO4pOgr+NMu0=",
+			"password": "pbkdf2_sha256$320000$M5Jj2ohyursy9sY5z9lDHN$97i/Zx+TPHVBFzmBBx3Ex/ryeYfwbJEuPB3LwrJpBrM=",
 			"last_login": null,
 			"is_superuser": false,
 			"username": "nurse1",
@@ -74,7 +74,7 @@
 		"model": "iamdt.user",
 		"pk": 4,
 		"fields": {
-			"password": "pbkdf2_sha256$320000$Qp7nLyqA9LOgS9tzwSHFRS$lnSv1GVMx9q1mSVnu1/Ziz91qnJeHkClO4pOgr+NMu0=",
+			"password": "pbkdf2_sha256$320000$M5Jj2ohyursy9sY5z9lDHN$97i/Zx+TPHVBFzmBBx3Ex/ryeYfwbJEuPB3LwrJpBrM=",
 			"last_login": null,
 			"is_superuser": false,
 			"username": "employee1",
@@ -98,7 +98,7 @@
 		"model": "iamdt.user",
 		"pk": 5,
 		"fields": {
-			"password": "pbkdf2_sha256$320000$Qp7nLyqA9LOgS9tzwSHFRS$lnSv1GVMx9q1mSVnu1/Ziz91qnJeHkClO4pOgr+NMu0=",
+			"password": "pbkdf2_sha256$320000$M5Jj2ohyursy9sY5z9lDHN$97i/Zx+TPHVBFzmBBx3Ex/ryeYfwbJEuPB3LwrJpBrM=",
 			"last_login": null,
 			"is_superuser": false,
 			"username": "dev1",

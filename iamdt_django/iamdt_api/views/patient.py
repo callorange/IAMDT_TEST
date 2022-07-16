@@ -151,7 +151,12 @@ class PatientService(generics.ListAPIView):
     serializer_class = MedicalRegisterInfoSerializer
 
     def get_queryset(self):
-        return super().get_queryset().filter(patient=self.kwargs["id"])
+        return (
+            super()
+            .get_queryset()
+            .filter(patient=self.kwargs["id"])
+            .prefetch_related("details", "details__staff")
+        )
 
     @extend_schema(
         tags=["환자"],

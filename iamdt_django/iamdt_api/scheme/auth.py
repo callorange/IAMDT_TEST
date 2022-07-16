@@ -12,7 +12,7 @@ _add_example = [
         name="로그인 요청1",
         summary="로그인 요청 성공",
         description="로그인 요청시 제출 되어야 하는 데이터 입니다.",
-        value={"username": "doctor1", "password": "doc12345678"},
+        value={"username": "doctor1", "password": "1234"},
         request_only=True,
     ),
     OpenApiExample(

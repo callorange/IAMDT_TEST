@@ -170,7 +170,7 @@ class StaffSchedule(generics.ListAPIView):
                     ).values("detail")
                 ).values("register")
             )
-        )
+        ).prefetch_related("details", "details__staff")
         return queryset
 
     @extend_schema(
